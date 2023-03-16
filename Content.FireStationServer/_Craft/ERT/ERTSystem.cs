@@ -21,6 +21,7 @@ using Content.Server.AlertLevel;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using System.Collections.Generic;
+using System;
 
 namespace Content.FireStationServer._Craft.ERT;
 
@@ -47,9 +48,10 @@ public sealed class ERTSystem : EntitySystem
 
         Config.OnValueChanged(CCVars.ERTEnabled, ERTEnabledChanged, true);
 
-        SubscribeNetworkEvent<RoundEndMessageEvent>(RoundEnd);
+        SubscribeLocalEvent<RoundEndedEvent>(OnRoundEnded);
         SetubByCVars();
     }
+
     private void ERTEnabledChanged(bool enabled)
     {
         ERTEnabled = enabled;
@@ -60,10 +62,11 @@ public sealed class ERTSystem : EntitySystem
         ERTEnabled = Config.GetCVar(CCVars.ERTEnabled);
     }
 
-    private void RoundEnd(RoundEndMessageEvent ev)
+    private void OnRoundEnded(RoundEndedEvent ev)
     {
-        Cleanup();
+         Cleanup();
     }
+
     private void Cleanup()
     {
         if (ShuttleUid != EntityUid.Invalid)
