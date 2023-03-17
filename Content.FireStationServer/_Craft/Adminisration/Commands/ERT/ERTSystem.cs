@@ -23,7 +23,7 @@ using Robust.Shared.IoC;
 using System.Collections.Generic;
 using System;
 
-namespace Content.FireStationServer._Craft.ERT;
+namespace Content.FireStationServer._Craft.Administration.Commands.ERT;
 
 [UsedImplicitly]
 public sealed class ERTSystem : EntitySystem
@@ -67,20 +67,11 @@ public sealed class ERTSystem : EntitySystem
          Cleanup();
     }
 
+    /**
+    Запомним, что при рестарте раунда, игра сама удаляет все сущности (в том числе карты)
+    **/
     private void Cleanup()
     {
-        if (ShuttleUid != EntityUid.Invalid)
-        {
-            EntityManager.QueueDeleteEntity(ShuttleUid);
-            ShuttleUid = EntityUid.Invalid;
-        }
-
-        if (MapId != MapId.Nullspace)
-        {
-            MapManager.DeleteMap(MapId);
-            MapId = MapId.Nullspace;
-        }
-
         ERTStatus = ERTStatus.IDLE;
     }
 

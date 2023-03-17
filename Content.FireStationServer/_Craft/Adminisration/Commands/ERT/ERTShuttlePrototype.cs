@@ -4,7 +4,7 @@ using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Utility;
 using Robust.Shared.ViewVariables;
 
-namespace Content.FireStationServer._Craft.ERT;
+namespace Content.FireStationServer._Craft.Administration.Commands.ERT;
 
 [Serializable, Prototype("ERTShuttle")]
 public sealed class ERTShuttlePrototype : IPrototype

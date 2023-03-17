@@ -4,7 +4,7 @@ using Robust.Shared.Console;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 
-namespace Content.FireStationServer._Craft.ERT;
+namespace Content.FireStationServer._Craft.Administration.Commands.ERT;
 
 [AdminCommand(AdminFlags.Adminhelp)]
 public sealed class ERTSpawnCommand : IConsoleCommand
