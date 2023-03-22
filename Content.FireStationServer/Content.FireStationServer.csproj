@@ -30,17 +30,27 @@
 
   <Target Name="CopyFiles" AfterTargets="Build">
     <ItemGroup>
-        <!-- Because this ItemGroup is inside the target, this will enumerate
+      <!-- Because this ItemGroup is inside the target, this will enumerate
              all files just before calling Copy. If the ItemGroup were outside
              the target , it would enumerate the files during evaluation, before
              the build starts, which may miss files created during the build. -->
-        <SourceFiles Include="..\..\bin\Content.FireStationServer\Content.FireStationServer.*"/>
+      <SourceFiles Include="..\..\bin\Content.FireStationServer\Content.FireStationServer.*" />
     </ItemGroup>
     <!-- ..\..\bin\Content.FireStationServer\Content.FireStation.dll -->
     <Copy
-        SourceFiles="@(SourceFiles)"
-        DestinationFiles="..\..\bin\Content.Server\%(Filename)%(Extension)"
+      SourceFiles="@(SourceFiles)"
+      DestinationFiles="..\..\bin\Content.Server\%(Filename)%(Extension)"
     />
-</Target>
+  </Target>
+
+  <Target Name="CopyResources" AfterTargets="Build">
+    <ItemGroup>
+      <Resources Include="..\ServerResources\**\*.*" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(Resources)"
+      DestinationFiles="..\..\Resources\%(RecursiveDir)%(Filename)%(Extension)"
+    />
+  </Target>
 
 </Project>

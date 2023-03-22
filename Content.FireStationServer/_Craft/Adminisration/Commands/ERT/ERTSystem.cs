@@ -9,19 +9,17 @@ using System.Linq;
 using Content.Server.Players;
 using Content.Server.Traitor;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
 using Robust.Server.GameObjects;
 using JetBrains.Annotations;
-using Content.Server._Craft.Utils;
 using Content.Server.Spawners.Components;
 using Robust.Shared.Configuration;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
-using Content.Server.AlertLevel;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using System.Collections.Generic;
 using System;
+using Content.FireStationServer._Craft.Utils;
 
 namespace Content.FireStationServer._Craft.Administration.Commands.ERT;
 
@@ -64,7 +62,7 @@ public sealed class ERTSystem : EntitySystem
 
     private void OnRoundEnded(RoundEndedEvent ev)
     {
-         Cleanup();
+        Cleanup();
     }
 
     /**
@@ -129,7 +127,8 @@ public sealed class ERTSystem : EntitySystem
     {
         ChatUtils.SendLocMessageFromCentcom(
             chatSystem: ChatSystem,
-            locCode: locCode
+            locCode: locCode,
+            stationId: null
         );
     }
 
@@ -154,9 +153,7 @@ public sealed class ERTSystem : EntitySystem
                 mapManager: MapManager,
                 mapSystem: MapLoaderSystem,
                 entityManager: EntityManager,
-                shuttlePath: shuttlePath,
-                xOffset: 400,
-                yOffset: 400
+                shuttlePath: shuttlePath
             );
         }
         else
