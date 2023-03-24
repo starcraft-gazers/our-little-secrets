@@ -28,6 +28,7 @@ public sealed class ShuttleMoveFromStation : Step
 
         var shuttleComponent = entityManager.EnsureComponent<ShuttleComponent>(shuttleUid);
         shuttleSystem.FTLTravel(
+            shuttleUid: shuttleUid,
             component: shuttleComponent,
             target: mapManager.GetMapEntityId(mapId),
             startupTime: 5,

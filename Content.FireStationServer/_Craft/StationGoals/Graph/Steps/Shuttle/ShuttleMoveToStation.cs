@@ -45,6 +45,7 @@ public sealed class ShuttleMoveToStation : Step
 
         var shuttleComponent = entityManager.EnsureComponent<ShuttleComponent>(shuttleUid);
         shuttleSystem.TryFTLDock(
+            shuttleUid: shuttleUid,
             component: shuttleComponent,
             targetUid: targetGrid
         );

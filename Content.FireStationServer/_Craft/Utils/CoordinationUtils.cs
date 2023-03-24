@@ -12,7 +12,7 @@ namespace Content.FireStationServer._Craft.Utils;
 public static class CoordinationUtils
 {
     public static bool TryFindRandomSaveTile(
-        EntityUid targetGrid,
+        EntityUid targetEntity,
         EntityUid targetMap,
         IMapManager mapManager,
         IEntityManager entityManager,
@@ -25,10 +25,10 @@ public static class CoordinationUtils
     {
         targetCoords = EntityCoordinates.Invalid;
 
-        if (!mapManager.TryGetGrid(targetGrid, out var grid))
+        if (!mapManager.TryGetGrid(targetEntity, out var grid))
             return false;
 
-        var xform = entityManager.GetComponent<TransformComponent>(targetGrid);
+        var xform = entityManager.GetComponent<TransformComponent>(targetEntity);
 
         if (!grid.TryGetTileRef(xform.Coordinates, out var tileRef))
             return false;

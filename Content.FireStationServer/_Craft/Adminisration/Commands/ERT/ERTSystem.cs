@@ -145,29 +145,14 @@ public sealed class ERTSystem : EntitySystem
         }
 
         ShuttleUid = EntityUid.Invalid;
-        MapId = ShuttleSystem.CentComMap ?? MapId.Nullspace;
+        MapId = MapId.Nullspace;
 
-        if (MapId == MapId.Nullspace)
-        {
-            (MapId, ShuttleUid) = ShuttleUtils.CreateShuttleOnNewMap(
-                mapManager: MapManager,
-                mapSystem: MapLoaderSystem,
-                entityManager: EntityManager,
-                shuttlePath: shuttlePath
-            );
-        }
-        else
-        {
-            ShuttleUid = ShuttleUtils.CreateShuttleOnExistedMap(
-                mapId: MapId,
-                mapManager: MapManager,
-                mapSystem: MapLoaderSystem,
-                entityManager: EntityManager,
-                shuttlePath: shuttlePath,
-                xOffset: 400,
-                yOffset: 400
-            );
-        }
+        (MapId, ShuttleUid) = ShuttleUtils.CreateShuttleOnNewMap(
+            mapManager: MapManager,
+            mapSystem: MapLoaderSystem,
+            entityManager: EntityManager,
+            shuttlePath: shuttlePath
+        );
 
         return true;
     }

@@ -7,6 +7,7 @@ using Content.Server.Atmos.EntitySystems;
 using Content.Server.Coordinates.Helpers;
 using Content.Server.Procedural;
 using Content.Server.Shuttles.Components;
+using Content.Server.Station.Components;
 using Content.Shared.Gravity;
 using Content.Shared.Procedural;
 using Robust.Server.GameObjects;
@@ -29,22 +30,16 @@ public sealed class DungeonsGenerator : Step
     private string DungeonPrototypeID = default!;
 
     [DataField("EnemiesPrototypes", serverOnly: true, required: false)]
-    private string [] EnemiesPrototypes = Array.Empty<string>();
+    private string[] EnemiesPrototypes = Array.Empty<string>();
 
     [DataField("EnemiesCount", serverOnly: true)]
     private int EnemiesCount = 10;
 
     private MapId MapId = MapId.Nullspace;
-    private EntityUid MapUid = EntityUid.Invalid;
-    private MapGridComponent DungeonGrid = default!;
+    private EntityUid DungeonUid = EntityUid.Invalid;
 
-    /**
-    Обертка. Посколько dungeon систем криво генерит в космосе, если там нет готового грида.
-    А если грид есть, все-равно криво генерит, если карта не загрузила его через свой менеджер (т.е если просто добавим компонент)
-    MR автора dungeon системы с фиксом не пропустили, а в нем менялся движок, так что мы тоже не будем его править
-    И воспользуемся оберткой
-    **/
-    private EntityUid FTLTarget = EntityUid.Invalid;
+    private MapGridComponent? DungeonGrid = default!;
+
     private Vector2 DungeonPosition = new Vector2(30f, 30f);
     internal override ExecuteState ExecuteStep(Dictionary<StepDataKey, object> results, StationGoalPaperSystem system)
     {
@@ -60,7 +55,7 @@ public sealed class DungeonsGenerator : Step
             entityManager.System<AtmosphereSystem>()
         );
 
-        if (!PrepareToGeneration(dependencies, out var dungeon) || dungeon == null)
+        if (!PrepareToGeneration(dependencies, out var dungeon) || dungeon == null || DungeonGrid == null)
         {
             return ExecuteState.Interrupted;
         }
@@ -73,6 +68,7 @@ public sealed class DungeonsGenerator : Step
     private bool PrepareToGeneration(Dependencies dependencies, out DungeonConfigPrototype? dungeon)
     {
         var mapManager = dependencies.MapManager;
+        var entityManager = dependencies.EntityManager;
         var prototypeManager = dependencies.PrototypeManager;
 
         if (!prototypeManager.TryIndex<DungeonConfigPrototype>(DungeonPrototypeID, out dungeon))
@@ -81,26 +77,13 @@ public sealed class DungeonsGenerator : Step
         }
 
         MapId = mapManager.CreateMap();
-        MapUid = mapManager.GetMapEntityId(MapId);
-
-        if (!IFuckedRobustEngineLoadMap(dependencies))
+        DungeonUid = mapManager.GetMapEntityId(MapId);
+        if (!entityManager.TryGetComponent<MapGridComponent>(DungeonUid, out DungeonGrid))
         {
-            return false;
+            DungeonUid = entityManager.CreateEntityUninitialized(null, new EntityCoordinates(DungeonUid, DungeonPosition));
+            DungeonGrid = entityManager.AddComponent<MapGridComponent>(DungeonUid);
+            entityManager.InitializeAndStartEntity(DungeonUid, MapId);
         }
-
-        DungeonGrid = dependencies.EntityManager.GetComponent<MapGridComponent>(FTLTarget);
-
-        return true;
-    }
-
-    private bool IFuckedRobustEngineLoadMap(Dependencies dependencies)
-    {
-        if (!dependencies.MapLoaderSystem.TryLoad(MapId, "/Maps/Salvage/small-3.yml", out var grids) || grids == null || grids.Count <= 0)
-        {
-            return false;
-        }
-
-        FTLTarget = grids[0];
 
         return true;
     }
@@ -108,10 +91,10 @@ public sealed class DungeonsGenerator : Step
     private async void GenerateDungeon(DungeonConfigPrototype dungeon, Dependencies dependencies)
     {
         var seed = dependencies.RobustRandom.Next(1000, 20000000);
-        await dependencies.DungeonSystem.GenerateDungeonAsync(dungeon, MapUid, DungeonGrid, DungeonPosition, seed);
+        await dependencies.DungeonSystem.GenerateDungeonAsync(dungeon, DungeonUid, DungeonGrid!, DungeonPosition, seed);
 
         AddFTLDestination(dependencies);
-        SetupComponents(dependencies);
+        SetupMetaData(dependencies);
         SpawnXenos(dependencies);
     }
 
@@ -119,33 +102,22 @@ public sealed class DungeonsGenerator : Step
     {
         var entityManager = dependencies.EntityManager;
 
-        var ftlComponent = entityManager.EnsureComponent<FTLDestinationComponent>(FTLTarget);
+        var ftlComponent = entityManager.EnsureComponent<FTLDestinationComponent>(DungeonUid);
         ftlComponent.Enabled = true;
         ftlComponent.Whitelist = null;
     }
 
-    private void SetupComponents(Dependencies dependencies)
-    {
-        SetupMetaData(dependencies);
-        SetupGravity(dependencies);
-    }
     private void SetupMetaData(Dependencies dependencies)
     {
-        var metaDataComponent = dependencies.EntityManager.EnsureComponent<MetaDataComponent>(FTLTarget);
+        var metaDataComponent = dependencies.EntityManager.EnsureComponent<MetaDataComponent>(DungeonUid);
         metaDataComponent.EntityName = "Неизвестный объект";
-    }
-
-    private void SetupGravity(Dependencies dependencies)
-    {
-        var gravityComponent = dependencies.EntityManager.EnsureComponent<GravityComponent>(FTLTarget);
-        gravityComponent.EnabledVV = true;
     }
 
     private void SpawnXenos(Dependencies dependencies)
     {
         for (int i = 1; i < EnemiesCount; i++)
         {
-            if (CoordinationUtils.TryFindRandomSaveTile(FTLTarget, MapUid, dependencies.MapManager, dependencies.EntityManager, dependencies.TileDefinitions, dependencies.AtmosphereSystem, dependencies.RobustRandom, 10, out var coords))
+            if (CoordinationUtils.TryFindRandomSaveTile(DungeonUid, DungeonUid, dependencies.MapManager, dependencies.EntityManager, dependencies.TileDefinitions, dependencies.AtmosphereSystem, dependencies.RobustRandom, 10, out var coords))
             {
                 var randomMob = dependencies.RobustRandom.Pick<string>(EnemiesPrototypes);
                 if (randomMob == null)
