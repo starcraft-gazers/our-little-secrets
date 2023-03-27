@@ -32,7 +32,7 @@ public sealed class SyndicateWarRuleConfiguration : GameRuleConfiguration
     public string CommanderRolePrototype = "NukeopsCommander";
 
     [DataField("operativeRoleProto", customTypeSerializer: typeof(PrototypeIdSerializer<StartingGearPrototype>))]
-    public string OperativeRoleProto = "SyndicateWar";
+    public string OperativeRoleProto = "Nukeops";
 
     [DataField("commanderStartingGearProto", customTypeSerializer: typeof(PrototypeIdSerializer<StartingGearPrototype>))]
     public string CommanderStartGearPrototype = "SyndicateCommanderGearFull";

@@ -681,10 +681,9 @@ public sealed class SyndicateWarRuleSystem : GameRuleSystem
 
         Elapsed = 0f;
 
-        SyndicateShuttleDockDelay = 60f;
-        SendFaxToCaptainDelay = 60f;
-        // SyndicateShuttleDockDelay = 1200f;
-        // SendFaxToCaptainDelay = 120f;
+
+        SyndicateShuttleDockDelay = 1200f;
+        SendFaxToCaptainDelay = 120f;
 
         foreach (var proto in new[]
                  {
