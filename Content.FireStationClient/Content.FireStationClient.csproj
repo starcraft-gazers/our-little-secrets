@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Work around https://github.com/dotnet/project-system/issues/4314 -->
+    <TargetFramework>$(TargetFramework)</TargetFramework>
+    <LangVersion>11</LangVersion>
+    <IsPackable>false</IsPackable>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\..\bin\Content.FireStationClient\</OutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <OutputType Condition="'$(FullRelease)' != 'True'">Exe</OutputType>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nett" Version="0.15.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\RobustToolbox\Lidgren.Network\Lidgren.Network.csproj" />
+    <ProjectReference Include="..\..\RobustToolbox\Robust.Shared.Maths\Robust.Shared.Maths.csproj" />
+    <ProjectReference Include="..\..\RobustToolbox\Robust.Shared\Robust.Shared.csproj" />
+    <ProjectReference Include="..\..\RobustToolbox\Robust.Client\Robust.Client.csproj" />
+    <ProjectReference Include="..\..\Content.Shared\Content.Shared.csproj" />
+    <ProjectReference Include="..\..\Content.Client\Content.Client.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UserInterface\Systems\MenuBar\Widgets\GameTopMenuBar.xaml.cs">
+      <DependentUpon>GameTopMenuBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="UserInterface\Systems\HotBar\Widgets\HotbarGui.xaml.cs">
+      <DependentUpon>HotbarGui.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="UserInterface\Systems\Inventory\Windows\StrippingWindow.xaml.cs">
+      <DependentUpon>StrippingWindow.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <Import Project="..\..\RobustToolbox\MSBuild\Robust.Properties.targets" />
+  <Import Project="..\..\RobustToolbox\MSBuild\XamlIL.targets" />
+
+  <Target Name="CopyFiles" AfterTargets="Build">
+    <ItemGroup>
+      <!-- Because this ItemGroup is inside the target, this will enumerate
+             all files just before calling Copy. If the ItemGroup were outside
+             the target , it would enumerate the files during evaluation, before
+             the build starts, which may miss files created during the build. -->
+      <SourceFiles Include="..\..\bin\Content.FireStationClient\Content.FireStationClient.*" />
+    </ItemGroup>
+
+    <Copy
+      SourceFiles="@(SourceFiles)"
+      DestinationFiles="..\..\bin\Content.Client\%(Filename)%(Extension)"
+    />
+  </Target>
+
+  <!-- <Target Name="CopyResources" AfterTargets="Build">
+    <ItemGroup>
+      <Resources Include="..\ClientResources\**\*.*" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(Resources)"
+      DestinationFiles="..\..\Resources\%(RecursiveDir)%(Filename)%(Extension)"
+    />
+  </Target> -->
+
+</Project>
