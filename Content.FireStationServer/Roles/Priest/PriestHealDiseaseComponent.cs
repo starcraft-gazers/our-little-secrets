@@ -13,13 +13,10 @@ public sealed class PriestHealDiseaseComponent : Component
     [ViewVariables(VVAccess.ReadWrite)]
     public TimeSpan StartTime;
 
-    [ViewVariables(VVAccess.ReadWrite)]
-    public TimeSpan DelayEndTime = TimeSpan.FromSeconds(10);
-
     [DataField("HealDiseaseAction")]
     public InstantAction HealDiseaseAction = new()
     {
-        UseDelay = TimeSpan.FromSeconds(10),
+        UseDelay = TimeSpan.FromSeconds(180),
         Icon = new SpriteSpecifier.Texture(new ResourcePath("Structures/Decoration/banner.rsi/banner_medical.png")),
         DisplayName = "Молитва за здравие",
         Description = "Помолитесь за здравие, чтобы попытаться излечить людей вокруг от болезней",
