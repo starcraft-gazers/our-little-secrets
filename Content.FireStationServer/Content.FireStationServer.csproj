@@ -37,20 +37,14 @@
       <SourceFiles Include="..\..\bin\Content.FireStationServer\Content.FireStationServer.*" />
     </ItemGroup>
     <!-- ..\..\bin\Content.FireStationServer\Content.FireStation.dll -->
-    <Copy
-      SourceFiles="@(SourceFiles)"
-      DestinationFiles="..\..\bin\Content.Server\%(Filename)%(Extension)"
-    />
+    <Copy SourceFiles="@(SourceFiles)" DestinationFiles="..\..\bin\Content.Server\%(Filename)%(Extension)" />
   </Target>
 
   <Target Name="CopyResources" AfterTargets="Build">
     <ItemGroup>
       <Resources Include="..\ServerResources\**\*.*" />
     </ItemGroup>
-    <Copy
-      SourceFiles="@(Resources)"
-      DestinationFiles="..\..\Resources\%(RecursiveDir)%(Filename)%(Extension)"
-    />
+    <Copy SourceFiles="@(Resources)" DestinationFiles="..\..\Resources\%(RecursiveDir)%(Filename)%(Extension)" />
   </Target>
 
 </Project>
