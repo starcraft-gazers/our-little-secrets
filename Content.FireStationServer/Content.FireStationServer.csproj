@@ -42,7 +42,7 @@
 
   <Target Name="CopyResources" AfterTargets="Build">
     <ItemGroup>
-      <Resources Include="..\ServerResources\**\*.*" />
+      <Resources Include="..\Resources\**\*.*" />
     </ItemGroup>
     <Copy SourceFiles="@(Resources)" DestinationFiles="..\..\Resources\%(RecursiveDir)%(Filename)%(Extension)" />
   </Target>
