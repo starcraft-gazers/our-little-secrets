@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Content.Server.Players.PlayTimeTracking;
@@ -34,7 +35,7 @@ public sealed class AntagManager : IAntagManager
         if (filteredPlayers.Count() < requiredCount)
             return players;
 
-        return  filteredPlayers;
+        return filteredPlayers;
     }
 
     public Dictionary<IPlayerSession, HumanoidCharacterProfile> GetPreferedAntags(Dictionary<IPlayerSession, HumanoidCharacterProfile> players, int requiredCount)
@@ -54,15 +55,26 @@ public sealed class AntagManager : IAntagManager
 
     public bool IsValidPlayedTime(IPlayerSession player)
     {
-        var values = _playTimeTracking.GetTrackerTimes(player);
-        var playedTime = 0d;
-
-        foreach (var item in values)
+        try
         {
-            playedTime += item.Value.TotalMinutes;
-        }
+            //Чтобы оставить стандартное поведение
+            if (!player.ConnectedClient.IsConnected || player.Status == Robust.Shared.Enums.SessionStatus.Disconnected)
+                return true;
 
-        _logManager.GetSawmill("AntagManager").Info($"Player Time for {player.Name} is - {playedTime}");
-        return playedTime > _config.GetCVar(CCVars.MinTimeToPlayAntag);
+            var values = _playTimeTracking.GetTrackerTimes(player);
+            var playedTime = 0d;
+
+            foreach (var item in values)
+            {
+                playedTime += item.Value.TotalMinutes;
+            }
+
+            _logManager.GetSawmill("AntagManager").Info($"Player Time for {player.Name} is - {playedTime}");
+            return playedTime > _config.GetCVar(CCVars.MinTimeToPlayAntag);
+        }
+        catch (Exception ex)
+        {
+            return true;
+        }
     }
 }
