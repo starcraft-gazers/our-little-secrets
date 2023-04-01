@@ -22,14 +22,52 @@ public sealed class AntagManager : IAntagManager
     [Dependency] private readonly ILogManager _logManager = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
 
+    private bool IsAntagsBlockedByTime = true;
+    private bool IsGhostRolesBlockedByTime = true;
+    private int MinTimeToPlayAntag = 1800;
+    private int MinTimeToPlayGhostRole = 1800;
+
+    public void Initialize()
+    {
+        IsAntagsBlockedByTime = _config.GetCVar(CCVars.IsAntagsBlockedByTime);
+        IsGhostRolesBlockedByTime = _config.GetCVar(CCVars.IsGhostRolesBlockedByTime);
+        MinTimeToPlayAntag = _config.GetCVar(CCVars.MinTimeToPlayAntag);
+        MinTimeToPlayGhostRole = _config.GetCVar(CCVars.MinTimeToPlayGhostRole);
+
+        _config.OnValueChanged(CCVars.IsAntagsBlockedByTime, IsAntagsBlockedByTimeChanged, true);
+        _config.OnValueChanged(CCVars.MinTimeToPlayAntag, MinTimeToPlayAntagChanged, true);
+        _config.OnValueChanged(CCVars.IsGhostRolesBlockedByTime, GhostAntagBlockedChanged, true);
+        _config.OnValueChanged(CCVars.MinTimeToPlayGhostRole, MinTimeToPlayGhostRoleChanged, true);
+    }
+
+    private void MinTimeToPlayGhostRoleChanged(int obj)
+    {
+        MinTimeToPlayGhostRole = obj;
+    }
+
+    private void GhostAntagBlockedChanged(bool obj)
+    {
+        IsGhostRolesBlockedByTime = obj;
+    }
+
+    private void MinTimeToPlayAntagChanged(int obj)
+    {
+        MinTimeToPlayAntag = obj;
+    }
+
+    private void IsAntagsBlockedByTimeChanged(bool obj)
+    {
+        IsAntagsBlockedByTime = obj;
+    }
+
     public List<IPlayerSession> GetPreferedAntags(List<IPlayerSession> players, int requiredCount)
     {
-        if (!_config.GetCVar(CCVars.UseAntagManager))
+        if (!IsAntagsBlockedByTime)
             return players;
 
 
         var filteredPlayers = players
-            .Where(player => IsValidPlayedTime(player))
+            .Where(player => IsValidPlayedTime(player, MinTimeToPlayAntag))
             .ToList();
 
         if (filteredPlayers.Count() < requiredCount)
@@ -40,11 +78,11 @@ public sealed class AntagManager : IAntagManager
 
     public Dictionary<IPlayerSession, HumanoidCharacterProfile> GetPreferedAntags(Dictionary<IPlayerSession, HumanoidCharacterProfile> players, int requiredCount)
     {
-        if (!_config.GetCVar(CCVars.UseAntagManager))
+        if (!IsAntagsBlockedByTime)
             return players;
 
         var filtered = players
-            .Where(keyValue => IsValidPlayedTime(keyValue.Key))
+            .Where(keyValue => IsValidPlayedTime(keyValue.Key, MinTimeToPlayAntag))
             .ToDictionary(pair => pair.Key, pair => pair.Value);
 
         if (filtered.Count() < requiredCount)
@@ -53,7 +91,15 @@ public sealed class AntagManager : IAntagManager
         return filtered;
     }
 
-    public bool IsValidPlayedTime(IPlayerSession player)
+    public bool IsPlayerTimeValidForGhostRole(IPlayerSession player)
+    {
+        if (!IsGhostRolesBlockedByTime)
+            return true;
+
+        return IsValidPlayedTime(player, MinTimeToPlayGhostRole);
+    }
+
+    private bool IsValidPlayedTime(IPlayerSession player, int requiredTime)
     {
         try
         {
@@ -70,7 +116,7 @@ public sealed class AntagManager : IAntagManager
             }
 
             _logManager.GetSawmill("AntagManager").Info($"Player Time for {player.Name} is - {playedTime}");
-            return playedTime > _config.GetCVar(CCVars.MinTimeToPlayAntag);
+            return playedTime > requiredTime;
         }
         catch (Exception ex)
         {
