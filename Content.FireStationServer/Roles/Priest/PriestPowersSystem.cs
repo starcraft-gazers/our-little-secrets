@@ -42,7 +42,6 @@ public sealed class PriestPowersSystem : EntitySystem
     {
         args.Handled = true;
 
-        component.StartTime = _timing.CurTime;
         if (_random.Next(1, 100) < 60)
         {
             _popupSystem.PopupEntity("Кажется ваши молитвы не были услышаны", uid);

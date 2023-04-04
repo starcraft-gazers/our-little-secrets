@@ -18,7 +18,8 @@ namespace Content.FireStationServer._Craft.SCP
         private Dictionary<string, List<EntityUid>> _containmentDoors = new();
         // TODO: Заменить этот ужас на прототип
         private static string[] _friendlyScps = {
-            "MobSCPSoap"
+            "MobSCPSoap",
+            "MobSCPPlagueDoctor"
         };
         private static string[] _hostileScps = {
             "MobSCP173"

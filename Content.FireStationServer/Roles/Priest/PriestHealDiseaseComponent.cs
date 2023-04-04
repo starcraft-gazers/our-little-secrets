@@ -3,16 +3,12 @@ using Content.Shared.Actions.ActionTypes;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Serialization.Manager.Attributes;
 using Robust.Shared.Utility;
-using Robust.Shared.ViewVariables;
 
 namespace Content.FireStationServer.Roles.Priest;
 
 [RegisterComponent]
 public sealed class PriestHealDiseaseComponent : Component
 {
-    [ViewVariables(VVAccess.ReadWrite)]
-    public TimeSpan StartTime;
-
     [DataField("HealDiseaseAction")]
     public InstantAction HealDiseaseAction = new()
     {

@@ -1,0 +1,77 @@
+- type: entity
+  name: Чумной доктор
+  parent: SCPMobBase
+  id: MobSCPPlagueDoctor
+  description: Не кашляйте...
+  components:
+    - type: PlagueDoctor
+    - type: Sprite
+      drawdepth: Mobs
+      layers:
+        - map: ["enum.DamageStateVisualLayers.Base"]
+          sprite: FireStation/Mobs/SCP/scp049.rsi
+          state: standing
+    - type: CollisionWake
+      enabled: false
+    - type: Physics
+      bodyType: Dynamic
+    - type: Fixtures
+      fixtures:
+        - shape: !type:PhysShapeCircle
+            radius: 0.1
+          id: "slips"
+          hard: false
+          layer:
+            - SlipLayer
+        - shape: !type:PhysShapeCircle
+            radius: 0.3
+          density: 50
+          mask:
+            - MobMask
+          layer:
+            - MobLayer
+    - type: Slippery
+      paralyzeTime: 1
+      launchForwardsMultiplier: 3
+    - type: StepTrigger
+      intersectRatio: 0.2
+    - type: ReplacementAccent
+      accent: mute
+    - type: GhostTakeoverAvailable
+      allowMovement: true
+      allowSpeech: true
+      name: Чумной доктор
+      description: Вы разумный и молчиливый "Чумной доктор".
+      rules: Вы дружелюбный объект! Вы можете создать себе двух спутников "Зомби", а также лечить экипаж.
+    - type: MobState
+      allowedStates:
+        - Alive
+        - Dead
+    - type: MobThresholds
+      thresholds:
+        0: Alive
+        1000: Dead
+    - type: NoSlip
+    - type: DiseaseProtection
+      protection: 1
+    - type: Insulated
+    - type: Tag
+      tags:
+        - CannotSuicide
+        - DoorBumpOpener
+    - type: Puller
+      needsHands: false
+
+- type: entity
+  name: Спавнер Чумного Доктора
+  id: SpawnMobSCPPlagueDoctor
+  parent: SpawnMobSCP
+  components:
+    - type: Sprite
+      layers:
+        - state: green
+        - sprite: FireStation/Mobs/SCP/scp049.rsi
+          state: standing
+    - type: ConditionalSpawner
+      prototypes:
+        - MobSCPPlagueDoctor
