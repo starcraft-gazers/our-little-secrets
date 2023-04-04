@@ -2,7 +2,7 @@
   name: Чумной доктор
   parent: SCPMobBase
   id: MobSCPPlagueDoctor
-  description: Не кашляйте...
+  description: Не болейте...
   components:
     - type: PlagueDoctor
     - type: Sprite
@@ -18,20 +18,13 @@
     - type: Fixtures
       fixtures:
         - shape: !type:PhysShapeCircle
-            radius: 0.1
-          id: "slips"
-          hard: false
-          layer:
-            - SlipLayer
-        - shape: !type:PhysShapeCircle
             radius: 0.3
           density: 50
           mask:
             - MobMask
           layer:
             - MobLayer
-    - type: StepTrigger
-      intersectRatio: 0.2
+    - type: Damageable
     - type: Speech
     - type: GhostTakeoverAvailable
       allowMovement: true
@@ -47,6 +40,19 @@
       thresholds:
         0: Alive
         1000: Dead
+    - type: Appearance
+    - type: CombatMode
+      disarm: null
+    - type: MeleeWeapon
+      hidden: true
+      soundHit:
+        collection: Punch
+      angle: 30
+      animation: WeaponArcFist
+      attackRate: 1
+      damage:
+        types:
+          Blunt: 15
     - type: NoSlip
     - type: DiseaseProtection
       protection: 1
@@ -57,6 +63,15 @@
         - DoorBumpOpener
     - type: Puller
       needsHands: false
+    - type: InjectableSolution
+      solution: chemicals
+    - type: HealthExaminable
+      examinableTypes:
+        - Blunt
+        - Slash
+        - Piercing
+        - Heat
+        - Shock
 
 - type: entity
   name: Спавнер Чумного Доктора

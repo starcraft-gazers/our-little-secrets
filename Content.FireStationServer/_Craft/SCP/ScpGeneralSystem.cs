@@ -68,13 +68,13 @@ namespace Content.FireStationServer._Craft.SCP
                     hostSCPList.Add(ent);
                 }
             }
-            // TODO: Не спавнить СЦП вообще если игроков недостаточно
-            if ((safeSCPList.Count == 0 && hostSCPList.Count == 0) || everyone.Count < 15)
+            // TODO: Не спавнить враждебных СЦП если игроков недостаточно
+            if (hostSCPList.Count != 0 && everyone.Count < 40)
             {
                 foreach (var uid in hostSCPList)
-                    Del(uid);
-                IsSCPBreakoutActive = false;
-                return;
+                {
+                    QueueDel(uid);
+                }
             }
 
             foreach (var player in everyone)

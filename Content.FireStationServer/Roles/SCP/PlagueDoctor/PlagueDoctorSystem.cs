@@ -7,8 +7,10 @@ using Content.Server.Speech.Components;
 using Content.Shared.Actions;
 using Content.Shared.Humanoid;
 using Content.Shared.Rejuvenate;
+using Content.Server.Chat.Managers;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
+using Robust.Server.GameObjects;
 
 namespace Content.FireStationServer.Roles.SCP.PlagueDoctor;
 
@@ -17,6 +19,7 @@ public sealed class PlagueDoctorSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly HumanoidAppearanceSystem _sharedHuApp = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
 
     public override void Initialize()
     {
@@ -96,5 +99,13 @@ public sealed class PlagueDoctorSystem : EntitySystem
         meta.EntityName = $"Спутник чумного доктора {meta.EntityName}";
 
         _popupSystem.PopupEntity("Чумной доктор превратил вас в своего спутника... Теперь вы подчиняетесь ему", target);
+
+        if (!TryComp<ActorComponent>(target, out var actor))
+            return;
+
+        _chatManager.DispatchServerMessage(
+                player: actor.PlayerSession,
+                message: "Чумной Доктор превратил вас в своего спутника!\nДелайте все, что он говорит, и не отходите от него (если он не попросит обратного).\nНе атакуйте других игроков преждевременно, если нет угрозы жизни Чумного Доктора"
+        );
     }
 }
