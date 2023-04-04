@@ -30,13 +30,9 @@
             - MobMask
           layer:
             - MobLayer
-    - type: Slippery
-      paralyzeTime: 1
-      launchForwardsMultiplier: 3
     - type: StepTrigger
       intersectRatio: 0.2
-    - type: ReplacementAccent
-      accent: mute
+    - type: Speech
     - type: GhostTakeoverAvailable
       allowMovement: true
       allowSpeech: true
