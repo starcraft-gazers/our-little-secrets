@@ -29,7 +29,7 @@
     back: ClothingBackpackSecurityFilled
     shoes: ClothingShoesBootsJack
     eyes: ClothingEyesGlassesSecurity
-    head: ClothingHeadHelmetHelmet
+    head: ClothingHeadHelmetVoidBrigmedic
     outerClothing: ClothingOuterBrigMedicHardsuit
     id: SecurityPDA
     ears: ClothingHeadsetSecurity

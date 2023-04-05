@@ -19,12 +19,16 @@
       fixtures:
         - shape: !type:PhysShapeCircle
             radius: 0.3
-          density: 50
+          density: 200
           mask:
             - MobMask
           layer:
             - MobLayer
+    - type: MovementSpeedModifier
+      baseWalkSpeed : 4
+      baseSprintSpeed : 4
     - type: Damageable
+    - type: Clickable
     - type: Speech
     - type: GhostTakeoverAvailable
       allowMovement: true
@@ -52,13 +56,14 @@
       attackRate: 1
       damage:
         types:
-          Blunt: 15
+          Blunt: 25
     - type: NoSlip
     - type: DiseaseProtection
       protection: 1
     - type: Insulated
     - type: Tag
       tags:
+        - FootstepSound
         - CannotSuicide
         - DoorBumpOpener
     - type: Puller
