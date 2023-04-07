@@ -14,10 +14,10 @@ public sealed class SCPStationPointSystem : ISCPStationPointSystem
 
     }
 
-    public bool IsSpawnPointAtSCPStation(EntityUid uid)
+    public bool IsSpawnPointAtSCPStation(EntityUid uid, TransformComponent transform)
     {
         return _entityManager
             .System<SCPStationSystem>()
-            .IsSpawnPointAtSCPStation(uid);
+            .IsSpawnPointAtSCPStation(uid, transform);
     }
 }

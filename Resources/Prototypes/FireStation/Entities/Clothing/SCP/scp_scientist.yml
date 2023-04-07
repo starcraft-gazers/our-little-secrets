@@ -5,6 +5,6 @@
   description: Комбинезон ученого SCP. Пахнет опасностью
   components:
   - type: Sprite
-    sprite: FireStation/Clothing/SCP/Security/tshirt.rsi
+    sprite: FireStation/Clothing/SCP/Scientist/tshirt.rsi
   - type: Clothing
-    sprite: FireStation/Clothing/SCP/Security/tshirt.rsi
+    sprite: FireStation/Clothing/SCP/Scientist/tshirt.rsi

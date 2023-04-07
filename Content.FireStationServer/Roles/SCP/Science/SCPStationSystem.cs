@@ -12,8 +12,10 @@ using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
+using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
+using Robust.Shared.Physics;
 using Robust.Shared.Prototypes;
 
 namespace Content.FireStationServer.Roles.SCP.Science;
@@ -46,13 +48,26 @@ public sealed class SCPStationSystem : EntitySystem
         scpShuttlePath = scpStationPrototype.ShuttlePath;
         scpStationPath = scpStationPrototype.MapPath;
 
-        SubscribeLocalEvent<PostGameMapLoad>(OnPostGameMapLoad);
-        SubscribeLocalEvent<StationInitializedEvent>(OnStationInitialized, after: new[] { typeof(StationJobsSystem) });
+        SubscribeLocalEvent<PostGameMapLoad>(
+            OnPostGameMapLoad,
+            before: new[] { typeof(StationSystem) }
+        );
+        SubscribeLocalEvent<StationInitializedEvent>(
+            OnStationInitialized,
+            before: new[] { typeof(StationSpawningSystem) },
+            after: new[] { typeof(StationJobsSystem) }
+        );
     }
 
     private void OnStationInitialized(StationInitializedEvent msg)
     {
-        if (!TryComp<StationJobsComponent>(msg.Station, out var stationJobs) || IsFallback)
+        if (IsFallbackActive())
+        {
+            Logger.DebugS("SCPStation", $"Called OnStationInitialized : {IsFallback}");
+            return;
+        }
+
+        if (!TryComp<StationJobsComponent>(msg.Station, out var stationJobs))
             return;
 
         //Поменять потом на динамический парсинг количества работ и прототипов
@@ -74,11 +89,11 @@ public sealed class SCPStationSystem : EntitySystem
         if (scpStationPrototype == null || ev.Map == MapId.Nullspace)
             return;
 
-        var minPlayersToSCP = _configManager.GetCVar(CCVars.MinPlayersForSCP);
-        IsFallback = _playerManager.GetAllPlayers().Count() < minPlayersToSCP;
-
-        if (IsFallback)
+        if (IsFallbackActive())
+        {
+            Logger.DebugS("SCPStation", $"Called OnPostGameMapLoad : {IsFallback}");
             return;
+        }
 
         var stationUid = ev.Grids.First();
         var stationCoordinates = Transform(stationUid).Coordinates;
@@ -87,6 +102,12 @@ public sealed class SCPStationSystem : EntitySystem
 
         SetSCPStationName(scpStationUid);
         LoadSCPShuttle(ev.Map, stationCoordinates, scpStationUid);
+    }
+
+    private bool IsFallbackActive()
+    {
+        IsFallback = _playerManager.GetAllPlayers().Count() < _configManager.GetCVar(CCVars.MinPlayersForSCP);
+        return IsFallback;
     }
 
     private bool LoadSCPStation(MapId mapId, EntityUid mainStation, EntityCoordinates mainStationCoordinates, out EntityUid scpStationEntity)
@@ -141,7 +162,15 @@ public sealed class SCPStationSystem : EntitySystem
         }
     }
 
-    public bool IsSpawnPointAtSCPStation(EntityUid uid) => uid == scpStationUid && !IsFallback;
+    public bool IsSpawnPointAtSCPStation(EntityUid uid, TransformComponent transform)
+    {
+        Logger.DebugS("SCPStation", $"Called IsSpawnPointAtSCPStation : {IsFallback}");
+        return !IsFallback && transform.ParentUid == scpStationUid;
+    }
 
-    public bool ShouldSpawnSCP() => !IsFallback;
+    public bool ShouldSpawnSCP()
+    {
+        Logger.DebugS("SCPStation", $"Called ShouldSpawnSCP : {IsFallback}");
+        return !IsFallback;
+    }
 }

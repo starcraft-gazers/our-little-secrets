@@ -13,6 +13,7 @@
   access:
     - Research
     - Maintenance
+    - External
 
 - type: startingGear
   id: SCPScientistGear
@@ -20,7 +21,6 @@
     jumpsuit: ClothingUniformJumpskirtSCPScientist
     back: ClothingBackpackScienceFilled
     shoes: ClothingShoesColorWhite
-    outerClothing: ClothingOuterCoatLab
     id: SCPSciencePDA
     ears: ClothingHeadsetScience
   satchel: ClothingBackpackSatchelScienceFilled
