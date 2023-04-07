@@ -1,3 +1,5 @@
+using Content.FireStationServer.Roles.SCP.Science;
+using Content.Server.Chat.Managers;
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.Shared.Doors;
@@ -5,6 +7,7 @@ using Robust.Server.Player;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Random;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +17,9 @@ namespace Content.FireStationServer._Craft.SCP
     {
         [Dependency] private readonly IRobustRandom _random = default!;
         [Dependency] private readonly GameTicker _ticker = default!;
-
+        [Dependency] private readonly IChatManager _chatManager = default!;
+        [Dependency] private readonly SCPStationSystem _scpStationSystem = default!;
+        private List<IPlayerSession> scpPlayers = new List<IPlayerSession>();
         private Dictionary<string, List<EntityUid>> _containmentDoors = new();
         // TODO: Заменить этот ужас на прототип
         private static string[] _friendlyScps = {
@@ -40,8 +45,10 @@ namespace Content.FireStationServer._Craft.SCP
 
         private void OnPlayersSpawning(RulePlayerSpawningEvent ev)
         {
-            IsSCPBreakoutActive = true;
-            var everyone = new List<IPlayerSession>(ev.PlayerPool);
+            if(!_scpStationSystem.ShouldSpawnSCP())
+                return;
+
+            var everyone = ev.PlayerPool;
 
             var safePrefList = new List<IPlayerSession>();
             var safeSCPList = new List<EntityUid>();
@@ -55,10 +62,13 @@ namespace Content.FireStationServer._Craft.SCP
                 var parents = proto?.Parents;
                 if (proto is null || parents is null)
                     continue;
+
                 if (!parents.Contains("SCPMobBase"))
                     continue;
+
                 var id = proto.ID;
                 var ent = xform.Owner;
+
                 if (_friendlyScps.Contains(id))
                 {
                     safeSCPList.Add(ent);
@@ -66,14 +76,6 @@ namespace Content.FireStationServer._Craft.SCP
                 else if (_hostileScps.Contains(id))
                 {
                     hostSCPList.Add(ent);
-                }
-            }
-            // TODO: Не спавнить враждебных СЦП если игроков недостаточно
-            if (hostSCPList.Count != 0 && everyone.Count < 40)
-            {
-                foreach (var uid in hostSCPList)
-                {
-                    QueueDel(uid);
                 }
             }
 
@@ -103,21 +105,27 @@ namespace Content.FireStationServer._Craft.SCP
             var maxScps = scps.Count;
             if (maxScps == 0)
                 return;
+
             _random.Shuffle(plys);
+
             foreach (var session in plys)
             {
                 if (!pool.Contains(session))
                     continue;
+
                 var trgscp = scps[0];
                 var newMind = new Mind(session.UserId)
                 {
                     CharacterName = MetaData(trgscp).EntityName
                 };
+
                 newMind.ChangeOwningPlayer(session.UserId);
                 newMind.TransferTo(trgscp);
+
                 scps.RemoveAt(0);
                 pool.Remove(session);
 
+                scpPlayers.Add(session);
                 _ticker.PlayerJoinGame(session);
                 if (scps.Count == 0)
                     break;

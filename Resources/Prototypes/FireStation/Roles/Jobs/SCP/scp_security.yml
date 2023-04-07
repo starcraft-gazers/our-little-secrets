@@ -1,39 +1,35 @@
 - type: job
-  id: BrigMedic
-  name: Бриг Медик
-  playTimeTracker: JobBrigMedic
+  id: SCPSecurity
+  name: Сотрудник безопасности SCP
+  playTimeTracker: JobSCPSecurity
   requirements:
     - !type:DepartmentTimeRequirement
-      department: Medical
+      department: Science
       time: 10800
     - !type:DepartmentTimeRequirement
       department: Security
       time: 10800
-  startingGear: BridMedicGear
-  icon: "BrigMedic"
+  startingGear: SCPSecurityGear
+  icon: "SCPSecurity"
   supervisors: job-supervisors-rd
   canBeAntag: false
   access:
-    - Service
-    - Brig
-    - Maintenance
-    - External
-    - Medical
-    - Chemistry
+    - Research
     - Security
+    - Maintenance
 
 - type: startingGear
-  id: BridMedicGear
+  id: SCPSecurityGear
   equipment:
-    jumpsuit: ClothingUniformJumpsuitSec
+    jumpsuit: ClothingUniformJumpskirtSCPSecurity
     back: ClothingBackpackSecurityFilled
     shoes: ClothingShoesBootsJack
     eyes: ClothingEyesGlassesSecurity
-    head: ClothingHeadHelmetVoidBrigmedic
-    outerClothing: ClothingOuterBrigMedicHardsuit
-    id: SecurityPDA
+    head: ClothingHeadSCPSecurityHelmet
+    outerClothing: ClothingOuterVestKevlar
+    id: SCPSecurityPDA
     ears: ClothingHeadsetSecurity
-    belt: ClothingBeltMedicalFilled
+    belt: ClothingBeltSecurityFilled
   innerclothingskirt: ClothingUniformJumpskirtSec
   satchel: ClothingBackpackSatchelSecurityFilled
   duffelbag: ClothingBackpackDuffelSecurityFilled
