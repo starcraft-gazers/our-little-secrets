@@ -11,7 +11,7 @@
       time: 10800
   startingGear: BridMedicGear
   icon: "BrigMedic"
-  supervisors: job-supervisors-rd
+  supervisors: job-supervisors-hos
   canBeAntag: false
   access:
     - Service
