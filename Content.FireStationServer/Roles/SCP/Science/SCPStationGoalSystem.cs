@@ -20,7 +20,10 @@ public sealed class SCPStationGoalSystem : EntitySystem
 
     private string LastTask = default!;
     private float Elapsed = -1f;
+    private float ElapsedStation = -1f;
     private float NextTaskDelay = -1f;
+
+    private float NextStationTaskDelay = -1f;
 
     private readonly List<string> HardcodedTasks = new List<string>
     {
@@ -30,7 +33,17 @@ public sealed class SCPStationGoalSystem : EntitySystem
         "Доставить SCP-049 на станцию и попросить его вылечить двух раненых или больных",
         "Доставить SCP-049 на станцию для прогулки. 10-20 минут",
         "Доставить Странное мыло на станцию и выпустить на самостоятельную прогулку 30 минут",
-        "Вернуть странное мыло в отдел SCP.",
+        "Провести медицинское обследование SCP-049",
+        "Доставить Странное мыло на станцию и проверить на воздействие различными частицами (М.А.К.А.К.)"
+    };
+
+    private readonly List<string> HardCodedStationTasks = new List<string>
+    {
+        "Провести патруль вокруг станции в космосе",
+        "Установить камеры наблюдения в камере содержания SCP-173",
+        "Установить камеры наблюдения в камере содержания SCP-049",
+        "Провести уборку в камере содержания SCP-173",
+        "Пополнить запасы еды и воды на станции SCP"
     };
     public override void Initialize()
     {
@@ -43,12 +56,15 @@ public sealed class SCPStationGoalSystem : EntitySystem
     private void OnRoundEnded(RoundEndedEvent ev)
     {
         Elapsed = -1;
+        ElapsedStation = -1;
     }
 
     private void OnRoundStarted(RoundStartedEvent ev)
     {
         Elapsed = 0f;
-        NextTaskDelay = 120f;
+        ElapsedStation = 0f;
+        NextTaskDelay = 500f;
+        NextStationTaskDelay = 120f;
     }
 
     public override void Update(float frameTime)
@@ -57,15 +73,44 @@ public sealed class SCPStationGoalSystem : EntitySystem
             return;
 
         Elapsed += frameTime;
+        ElapsedStation += frameTime;
 
         if (Elapsed >= NextTaskDelay)
         {
             PrintNextTask();
             Elapsed = 0f;
-            NextTaskDelay = _robustRandom.NextFloat(420, 600);
+            NextTaskDelay = _robustRandom.NextFloat(600, 1200);
+        }
+
+        if (ElapsedStation >= NextStationTaskDelay)
+        {
+            PrintNextStationTask();
+            ElapsedStation = 0f;
+            NextStationTaskDelay = 600;
         }
     }
 
+    private void PrintNextStationTask()
+    {
+        _robustRandom.Shuffle(HardCodedStationTasks);
+
+        var randomTask = _robustRandom.Pick(HardCodedStationTasks);
+        var faxes = EntityQuery<FaxMachineComponent>();
+
+        foreach (var fax in faxes)
+        {
+            if (!fax.ReceiveSCPGoal)
+                continue;
+
+            var printout = new FaxPrintout(
+                randomTask,
+                "Задание отделу SCP",
+                null,
+                "paper_stamp-cent",
+                new() { Loc.GetString("stamp-component-stamped-name-centcom") });
+            _faxSystem.Receive(fax.Owner, printout, null, fax);
+        }
+    }
     private void PrintNextTask()
     {
         var filtered = HardcodedTasks.Where(task => task != LastTask).ToList();
