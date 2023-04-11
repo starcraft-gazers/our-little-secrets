@@ -79,7 +79,7 @@ public sealed class SCPStationGoalSystem : EntitySystem
         {
             PrintNextTask();
             Elapsed = 0f;
-            NextTaskDelay = _robustRandom.NextFloat(600, 1200);
+            NextTaskDelay = _robustRandom.NextFloat(900, 1200);
         }
 
         if (ElapsedStation >= NextStationTaskDelay)

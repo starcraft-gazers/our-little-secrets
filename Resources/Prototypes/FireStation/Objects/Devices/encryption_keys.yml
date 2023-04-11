@@ -6,7 +6,6 @@
   components:
   - type: EncryptionKey
     channels:
-      - Security
       - Science
       - SCP
     defaultChannel: SCP

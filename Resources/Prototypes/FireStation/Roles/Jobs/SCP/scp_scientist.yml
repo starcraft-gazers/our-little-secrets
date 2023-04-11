@@ -5,7 +5,7 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Science
-      time: 10800
+      time: 21600
   startingGear: SCPScientistGear
   icon: "SCPScientist"
   supervisors: job-supervisors-rd
@@ -22,6 +22,6 @@
     back: ClothingBackpackScienceFilled
     shoes: ClothingShoesColorWhite
     id: SCPSciencePDA
-    ears: ClothingHeadsetScience
+    ears: ClothingHeadsetSCPScience
   satchel: ClothingBackpackSatchelScienceFilled
   duffelbag: ClothingBackpackDuffelScienceFilled

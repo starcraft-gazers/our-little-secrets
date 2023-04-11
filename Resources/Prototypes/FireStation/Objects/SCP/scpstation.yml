@@ -1,7 +1,7 @@
 - type: SCPStationPrototype
   id: SCPStation
-  mapPath: /Maps/FireStation/SCPStationV81.yml
-  shuttlePath: /Maps/FireStation/SCPShuttleV14.yml
+  mapPath: /Maps/FireStation/SCPStationV82.yml
+  shuttlePath: /Maps/FireStation/SCPShuttleV18.yml
   stationNameTemplate: '{0} SCP FortPost {1}'
   nameGenerator:
     !type:NanotrasenNameGenerator

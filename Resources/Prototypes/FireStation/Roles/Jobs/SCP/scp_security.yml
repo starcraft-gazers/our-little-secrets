@@ -5,10 +5,10 @@
   requirements:
     - !type:DepartmentTimeRequirement
       department: Science
-      time: 10800
+      time: 21600
     - !type:DepartmentTimeRequirement
       department: Security
-      time: 10800
+      time: 21600
   startingGear: SCPSecurityGear
   icon: "SCPSecurity"
   supervisors: job-supervisors-rd
@@ -29,7 +29,7 @@
     head: ClothingHeadSCPSecurityHelmet
     outerClothing: ClothingOuterVestKevlar
     id: SCPSecurityPDA
-    ears: ClothingHeadsetSecurity
+    ears: ClothingHeadsetSCPSecurity
     belt: ClothingBeltSecurityFilled
   innerclothingskirt: ClothingUniformJumpskirtSec
   satchel: ClothingBackpackSatchelSecurityFilled
