@@ -154,6 +154,7 @@ public sealed class SCPStationSystem : EntitySystem
             return;
 
         var scpShuttleUid = scpShuttleGrids.First();
+        MetaData(scpShuttleUid).EntityName = "Бегемот";
 
         if (TryComp<ShuttleComponent>(scpShuttleUid, out var scpShuttleComponent))
         {

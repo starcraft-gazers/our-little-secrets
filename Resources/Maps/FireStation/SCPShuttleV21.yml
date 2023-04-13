@@ -2226,6 +2226,8 @@ entities:
         occludes: True
         ent: null
     type: ContainerContainer
+  missingComponents:
+  - AccessReader
 - uid: 243
   type: AMEJar
   components:
@@ -2267,10 +2269,9 @@ entities:
     type: Physics
   - type: InsideEntityStorage
 - uid: 247
-  type: AirlockScienceLocked
+  type: AirlockSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: -1.5,0.5
+  - pos: -2.5,0.5
     parent: 0
     type: Transform
 - uid: 248
@@ -3626,10 +3627,9 @@ entities:
     parent: 0
     type: Transform
 - uid: 434
-  type: AirlockScienceLocked
+  type: AirlockGlassSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: 2.5,-2.5
+  - pos: -6.5,-2.5
     parent: 0
     type: Transform
 - uid: 435
@@ -4032,31 +4032,27 @@ entities:
     parent: 0
     type: Transform
 - uid: 489
-  type: AirlockScienceLocked
+  type: AirlockSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: -2.5,0.5
+  - pos: -1.5,0.5
     parent: 0
     type: Transform
 - uid: 490
-  type: AirlockScienceLocked
+  type: AirlockGlassSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: -6.5,-2.5
+  - pos: 2.5,-2.5
     parent: 0
     type: Transform
 - uid: 491
-  type: AirlockScienceLocked
+  type: AirlockGlassSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: -1.5,-11.5
+  - pos: -1.5,-11.5
     parent: 0
     type: Transform
 - uid: 492
-  type: AirlockScienceLocked
+  type: AirlockGlassSCPLocked
   components:
-  - rot: 1.5707963267948966 rad
-    pos: -2.5,-11.5
+  - pos: -2.5,-11.5
     parent: 0
     type: Transform
 ...
