@@ -58,7 +58,7 @@ public sealed class PlagueDoctorSystem : EntitySystem
         args.Handled = true;
         var target = args.Target;
 
-        if (HasComp<HumanoidAppearanceComponent>(target))
+        if (HasComp<HumanoidAppearanceComponent>(target) || target == uid)
         {
             RaiseLocalEvent(target, new RejuvenateEvent());
             _popupSystem.PopupEntity("Чумной доктор исцелил вас!", target);
@@ -136,7 +136,7 @@ public sealed class PlagueDoctorSystem : EntitySystem
 
         if (!TryComp<HumanoidAppearanceComponent>(target, out var targetHumanoidComp))
         {
-            RemComp<PlagueDoctorComponent>(target);
+            RemComp<PlagueDoctorZombieComponent>(target);
             RemComp<ReplacementAccentComponent>(target);
             _popupSystem.PopupEntity("Вы освободили его душу, но цвет кожи не изменился", uid);
             SendTextToChat(target, "Чумной доктор избавил вас от мучений... Вы больше не его прислужник");
@@ -154,8 +154,8 @@ public sealed class PlagueDoctorSystem : EntitySystem
         var meta = MetaData(target);
         meta.EntityName = zombiecomp.OldName;
 
-        RemComp<PlagueDoctorComponent>(target);
         RemComp<ReplacementAccentComponent>(target);
+        RemComp<PlagueDoctorZombieComponent>(target);
 
         _popupSystem.PopupEntity("Вы освободили его душу.. Он больше не ваш прислужник", uid);
         SendTextToChat(target, "Чумной доктор избавил вас от мучений... Вы больше не его прислужник");

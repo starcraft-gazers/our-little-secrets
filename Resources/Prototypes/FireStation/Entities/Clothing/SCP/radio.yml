@@ -7,25 +7,6 @@
   - type: ContainerFill
     containers:
       key_slots:
-      - EncryptionKeyScience
-      - EncryptionKeyCommon
-      - EncryptionKeySCP
-  - type: Sprite
-    sprite: Clothing/Ears/Headsets/science.rsi
-  - type: Clothing
-    sprite: Clothing/Ears/Headsets/science.rsi
-
-- type: entity
-  parent: ClothingHeadset
-  id: ClothingHeadsetSCPScience
-  name: гарнитура научного отдела SCP
-  description: A sciency headset. Like usual.
-  components:
-  - type: ContainerFill
-    containers:
-      key_slots:
-      - EncryptionKeyScience
-      - EncryptionKeyCommon
       - EncryptionKeySCP
   - type: Sprite
     sprite: Clothing/Ears/Headsets/science.rsi
@@ -41,9 +22,23 @@
   - type: ContainerFill
     containers:
       key_slots:
-      - EncryptionKeySecurity
-      - EncryptionKeyCommon
       - EncryptionKeySCP
+  - type: Sprite
+    sprite: Clothing/Ears/Headsets/security.rsi
+  - type: Clothing
+    sprite: Clothing/Ears/Headsets/security.rsi
+
+- type: entity
+  parent: ClothingHeadset
+  id: ClothingHeadsetSCPHead
+  name: гарнитура главы отдела SCP
+  description: используется главой отдела SCP для коммуникации
+  components:
+  - type: ContainerFill
+    containers:
+      key_slots:
+      - EncryptionKeySCP
+      - EncryptionKeyCommand
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi
   - type: Clothing

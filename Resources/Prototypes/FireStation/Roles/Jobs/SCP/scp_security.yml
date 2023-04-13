@@ -14,10 +14,10 @@
   supervisors: job-supervisors-rd
   canBeAntag: false
   access:
-    - Research
     - Security
     - Maintenance
     - External
+    - SCP
 
 - type: startingGear
   id: SCPSecurityGear

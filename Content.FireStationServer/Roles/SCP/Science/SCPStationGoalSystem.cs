@@ -18,7 +18,6 @@ public sealed class SCPStationGoalSystem : EntitySystem
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IRobustRandom _robustRandom = default!;
 
-    private string LastTask = default!;
     private float Elapsed = -1f;
     private float ElapsedStation = -1f;
     private float NextTaskDelay = -1f;
@@ -27,23 +26,24 @@ public sealed class SCPStationGoalSystem : EntitySystem
 
     private readonly List<string> HardcodedTasks = new List<string>
     {
-        "Доставить SCP-173 на станцию и проверить на воздействие различными частицами (М.А.К.А.К.)",
-        "Доставить SCP-173 на станцию к источнику радиации на 2 минут",
-        "Дождаться наличие преступника в пермабриге и доставить его в камеру к SCP-173",
-        "Доставить SCP-049 на станцию и попросить его вылечить двух раненых или больных",
-        "Доставить SCP-049 на станцию для прогулки. 10-20 минут",
-        "Доставить Странное мыло на станцию и выпустить на самостоятельную прогулку 30 минут",
+        "Доставить SCP-173 на основную станцию и проверить на воздействие различными частицами (М.А.К.А.К.)",
+        "Доставить SCP-173 на основную станцию к источнику радиации на 1.5 минуты",
+        "Дождаться наличие преступника в пермабриге и доставить его в камеру к SCP-049, чтобы он сделал его слугой",
+        "Доставить SCP-049 на основную станцию и попросить его вылечить двух раненых или больных",
+        "Доставить SCP-049 на основную станцию для прогулки. 10-20 минут",
+        "Доставить Странное мыло на основную станцию и выпустить на самостоятельную прогулку 1 час",
+        "Доставить Странное мыло на основную станцию и проверить на воздействие различными частицами (М.А.К.А.К.)",
         "Провести медицинское обследование SCP-049",
-        "Доставить Странное мыло на станцию и проверить на воздействие различными частицами (М.А.К.А.К.)"
     };
 
+    private List<string> StationTasks = default!;
     private readonly List<string> HardCodedStationTasks = new List<string>
     {
         "Провести патруль вокруг станции в космосе",
         "Установить камеры наблюдения в камере содержания SCP-173",
         "Установить камеры наблюдения в камере содержания SCP-049",
         "Провести уборку в камере содержания SCP-173",
-        "Пополнить запасы еды и воды на станции SCP"
+        "Пополнить запасы еды и воды в отделе SCP"
     };
     public override void Initialize()
     {
@@ -51,12 +51,15 @@ public sealed class SCPStationGoalSystem : EntitySystem
 
         SubscribeLocalEvent<RoundStartedEvent>(OnRoundStarted);
         SubscribeLocalEvent<RoundEndedEvent>(OnRoundEnded);
+
+        StationTasks = HardcodedTasks;
     }
 
     private void OnRoundEnded(RoundEndedEvent ev)
     {
         Elapsed = -1;
         ElapsedStation = -1;
+        StationTasks = HardcodedTasks;
     }
 
     private void OnRoundStarted(RoundStartedEvent ev)
@@ -65,6 +68,8 @@ public sealed class SCPStationGoalSystem : EntitySystem
         ElapsedStation = 0f;
         NextTaskDelay = 500f;
         NextStationTaskDelay = 120f;
+
+        _robustRandom.Shuffle(StationTasks);
     }
 
     public override void Update(float frameTime)
@@ -86,7 +91,7 @@ public sealed class SCPStationGoalSystem : EntitySystem
         {
             PrintNextStationTask();
             ElapsedStation = 0f;
-            NextStationTaskDelay = 600;
+            NextStationTaskDelay = _robustRandom.NextFloat(600, 900);
         }
     }
 
@@ -113,13 +118,7 @@ public sealed class SCPStationGoalSystem : EntitySystem
     }
     private void PrintNextTask()
     {
-        var filtered = HardcodedTasks.Where(task => task != LastTask).ToList();
-        if (filtered == null)
-            return;
-
-        _robustRandom.Shuffle(filtered);
-
-        var randomTask = _robustRandom.Pick(filtered);
+        var randomTask = _robustRandom.PickAndTake(StationTasks);
         var faxes = EntityQuery<FaxMachineComponent>();
 
         foreach (var fax in faxes)
@@ -135,5 +134,8 @@ public sealed class SCPStationGoalSystem : EntitySystem
                 new() { Loc.GetString("stamp-component-stamped-name-centcom") });
             _faxSystem.Receive(fax.Owner, printout, null, fax);
         }
+
+        if (StationTasks.Count() == 0)
+            StationTasks = HardcodedTasks;
     }
 }

@@ -76,6 +76,9 @@
           state: science_scp
           state_open: science_scp_open
           state_closed: science_scp_door
+    - type: StorageFill
+      contents:
+        - id: ClothingHeadsetSCPScience
 
 - type: entity
   id: ClosetSCPSecurity
@@ -102,3 +105,4 @@
         - id: ClothingEyesGlassesSecurity
         - id: ClothingHandsGlovesColorBlack
         - id: ClothingShoesBootsJack
+        - id: ClothingHeadsetSCPSecurity

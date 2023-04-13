@@ -72,14 +72,17 @@ public sealed class SCPStationSystem : EntitySystem
 
         //Поменять потом на динамический парсинг количества работ и прототипов
         //Целенаправлено влезаем в stationJobs, чтобы учитывались приоритеты игроков и т.д.
-        stationJobs.RoundStartTotalJobs = stationJobs.RoundStartTotalJobs + 6;
-        stationJobs.MidRoundTotalJobs = stationJobs.MidRoundTotalJobs + 6;
+        stationJobs.RoundStartTotalJobs = stationJobs.RoundStartTotalJobs + 11;
+        stationJobs.MidRoundTotalJobs = stationJobs.MidRoundTotalJobs + 11;
         stationJobs.TotalJobs = stationJobs.MidRoundTotalJobs;
 
         stationJobs.JobList["SCPSecurity"] = 3;
         stationJobs.JobList["SCPScientist"] = 3;
+        stationJobs.RoundStartJobList["SCPHead"] = 1;
         stationJobs.RoundStartJobList["SCPSecurity"] = 3;
         stationJobs.RoundStartJobList["SCPScientist"] = 3;
+        stationJobs.RoundStartJobList["SCPHead"] = 1;
+        stationJobs.RoundStartJobList["SCPDClass"] = 4;
 
         _stationJobsSystem.UpdateJobsAvailable();
     }

@@ -45,3 +45,27 @@
     state: pda-security
   - type: Icon
     state: pda-security
+
+- type: entity
+  parent: IDCardStandard
+  id: SCPHeadIDCard
+  name: ID карта главы отдела SCP
+  components:
+  - type: Sprite
+    layers:
+    - state: default
+    - state: idpassenger
+  - type: PresetIdCard
+    job: SCPHead
+
+- type: entity
+  parent: BasePDA
+  id: SCPHeadPDA
+  name: КПК Главы отдела SCP
+  description: Покрыто кровью
+  components:
+  - type: PDA
+    id: SCPHeadIDCard
+    state: pda-science
+  - type: Icon
+    state: pda-science
