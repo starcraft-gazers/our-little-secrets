@@ -116,6 +116,7 @@
   - type: MovementSpeedModifier
     baseWalkSpeed : 4
     baseSprintSpeed : 10
+  - type: Body
   - type: Sprite
     drawdepth: Mobs
     layers:
@@ -163,7 +164,7 @@
     animation: WeaponArcBite
     damage:
       types:
-        Piercing: 350
+        Piercing: 250
   - type: Damageable
     damageContainer: Inorganic
     damageModifierSet: SCP173

@@ -23,6 +23,7 @@
       state: scp_soap
   - type: CollisionWake
     enabled: false
+  - type: Body
   - type: Physics
     bodyType: Dynamic
   - type: Fixtures
