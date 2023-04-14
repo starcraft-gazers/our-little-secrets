@@ -43,7 +43,9 @@ public sealed class SCPStationGoalSystem : EntitySystem
         "Установить камеры наблюдения в камере содержания SCP-173",
         "Установить камеры наблюдения в камере содержания SCP-049",
         "Провести уборку в камере содержания SCP-173",
-        "Пополнить запасы еды и воды в отделе SCP"
+        "Вывести Д-Класс на обед (не более двух человек за раз)",
+        "Проверить ДАМ на шаттле и в отделе SCP",
+        "Пополнить запасы еды, воды и медикаментов в отделе SCP"
     };
     public override void Initialize()
     {
@@ -52,14 +54,15 @@ public sealed class SCPStationGoalSystem : EntitySystem
         SubscribeLocalEvent<RoundStartedEvent>(OnRoundStarted);
         SubscribeLocalEvent<RoundEndedEvent>(OnRoundEnded);
 
-        StationTasks = HardcodedTasks;
+        StationTasks = HardcodedTasks.ToList();
     }
 
     private void OnRoundEnded(RoundEndedEvent ev)
     {
         Elapsed = -1;
         ElapsedStation = -1;
-        StationTasks = HardcodedTasks;
+
+        StationTasks = HardcodedTasks.ToList();
     }
 
     private void OnRoundStarted(RoundStartedEvent ev)
@@ -136,6 +139,6 @@ public sealed class SCPStationGoalSystem : EntitySystem
         }
 
         if (StationTasks.Count() == 0)
-            StationTasks = HardcodedTasks;
+            StationTasks = HardcodedTasks.ToList();
     }
 }
