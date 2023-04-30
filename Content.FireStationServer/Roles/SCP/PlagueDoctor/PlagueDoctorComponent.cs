@@ -14,7 +14,7 @@ public sealed class PlagueDoctorComponent : Component
     [DataField("HealAction")]
     public EntityTargetAction HealAction = new()
     {
-        Icon = new SpriteSpecifier.Rsi(new ResourcePath("Structures/Decoration/banner.rsi"), "banner_medical"),
+        Icon = new SpriteSpecifier.Rsi(new ResPath("Structures/Decoration/banner.rsi"), "banner_medical"),
         ItemIconStyle = ItemActionIconStyle.NoItem,
         DisplayName = "Вылечить",
         Description = "Полностью излечите вашу цель",
@@ -28,7 +28,7 @@ public sealed class PlagueDoctorComponent : Component
     [DataField("MakeZombieAction")]
     public EntityTargetAction MakeZombieAction = new EntityTargetAction()
     {
-        Icon = new SpriteSpecifier.Texture(new ResourcePath("Interface/Actions/zombie-turn.png")),
+        Icon = new SpriteSpecifier.Texture(new ResPath("Interface/Actions/zombie-turn.png")),
         ItemIconStyle = ItemActionIconStyle.NoItem,
         DisplayName = "Сделать прислужника",
         Description = "Делает из цели прислужника, который является вашим спутником и подчиняется вам",
@@ -42,7 +42,7 @@ public sealed class PlagueDoctorComponent : Component
     [DataField("UnZombieAction")]
     public EntityTargetAction UnZombieAction = new EntityTargetAction()
     {
-        Icon = new SpriteSpecifier.Rsi(new ResourcePath("Actions/Implants/implants.rsi"), "freedom"),
+        Icon = new SpriteSpecifier.Rsi(new ResPath("Actions/Implants/implants.rsi"), "freedom"),
         ItemIconStyle = ItemActionIconStyle.NoItem,
         DisplayName = "Освободить прислужника",
         Description = "Особождает цель от служения вам",

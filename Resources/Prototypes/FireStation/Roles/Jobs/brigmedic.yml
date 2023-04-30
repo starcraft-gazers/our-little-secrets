@@ -1,29 +1,5 @@
-- type: job
-  id: BrigMedic
-  name: Бриг Медик
-  playTimeTracker: JobBrigMedic
-  requirements:
-    - !type:DepartmentTimeRequirement
-      department: Medical
-      time: 10800
-    - !type:DepartmentTimeRequirement
-      department: Security
-      time: 10800
-  startingGear: BridMedicGear
-  icon: "BrigMedic"
-  supervisors: job-supervisors-hos
-  canBeAntag: false
-  access:
-    - Service
-    - Brig
-    - Maintenance
-    - External
-    - Medical
-    - Chemistry
-    - Security
-
 - type: startingGear
-  id: BridMedicGear
+  id: BridMedicFireStationGear
   equipment:
     jumpsuit: ClothingUniformJumpsuitSec
     back: ClothingBackpackSecurityFilled

@@ -11,11 +11,10 @@ using Content.Shared.Chemistry.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Interaction.Events;
 using Content.Shared.StatusEffect;
-using Content.Shared.Eye.Blinding;
+using Content.Shared.Eye.Blinding.Components;
+using Content.Shared.Eye.Blinding.Systems;
 using Content.Shared.Tag;
 using Content.Shared.SCP.ConcreteSlab;
-
-
 using Content.Server.Fluids.EntitySystems;
 using Content.Server.Mind.Components;
 using Content.Server.Actions;
@@ -27,12 +26,13 @@ using Robust.Shared.GameObjects;
 using System.Collections.Generic;
 using Robust.Shared.IoC;
 using System;
+using Robust.Shared.Map;
 
 namespace Content.FireStationServer._Craft.SCP.ScpComponents
 {
     public sealed class SCP173System : SharedSCP173System
     {
-        [Dependency] private readonly SpillableSystem _spillableSystem = default!;
+        // [Dependency] private readonly PuddleSystem _puddleSystem = default!;
         [Dependency] private readonly EntityLookupSystem _lookup = default!;
         [Dependency] private readonly TransformSystem _transform = default!;
         [Dependency] private readonly SharedAudioSystem _audio = default!;
@@ -90,10 +90,21 @@ namespace Content.FireStationServer._Craft.SCP.ScpComponents
         #region Actions
         private void OnShartAction(EntityUid uid, SCP173Component component, ShartActionEvent args)
         {
-            if (!component.Enabled) return;
-            Solution solution = new("Nutriment", 8);
-            solution.AddReagent("Blood", 5);
-            _spillableSystem.SpillAt(uid, solution, "SCP173Puddle");
+            if (!component.Enabled)
+                return;
+
+            //Быстрое говно, чтобы решить проблему.
+            var transform = Transform(uid).MapPosition;
+            var x1y = new MapCoordinates(transform.X + 1, transform.Y, transform.MapId);
+            var x2y = new MapCoordinates(transform.X - 1, transform.Y, transform.MapId);
+            var xy1 = new MapCoordinates(transform.X, transform.Y + 1, transform.MapId);
+            var xy2 = new MapCoordinates(transform.X, transform.Y - 1, transform.MapId);
+
+            Spawn("SCP173Puddle", transform);
+            Spawn("SCP173Puddle", x1y);
+            Spawn("SCP173Puddle", x2y);
+            Spawn("SCP173Puddle", xy1);
+            Spawn("SCP173Puddle", xy2);
 
             args.Handled = true;
         }
@@ -121,7 +132,7 @@ namespace Content.FireStationServer._Craft.SCP.ScpComponents
                     {
                         var plyCords = Comp<TransformComponent>(ply).Coordinates;
                         if (coords.TryDistance(_entMan, plyCords, out var dist))
-                            _statusEffectsSystem.TryAddStatusEffect(ply, SharedBlindingSystem.BlindingStatusEffect,
+                            _statusEffectsSystem.TryAddStatusEffect(ply, TemporaryBlindnessSystem.BlindingStatusEffect,
                                 TimeSpan.FromSeconds(lookerList.Contains(ply) ? 8 : 12 - dist), true, "TemporaryBlindness");
                         _audio.PlayStatic(component.ScaresSound, ply, coords);
                     }

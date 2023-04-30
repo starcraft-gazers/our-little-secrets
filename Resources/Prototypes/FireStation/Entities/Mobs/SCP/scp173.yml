@@ -95,8 +95,6 @@
     launchForwardsMultiplier: 2.0
   - type: StepTrigger
   - type: Appearance
-  - type: PuddleVisualizer
-    customPuddleSprite: true
 
 - type: entity
   name: SCP-173

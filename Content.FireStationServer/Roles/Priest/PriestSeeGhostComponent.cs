@@ -21,7 +21,7 @@ public sealed class PriestSeeGhostComponent : Component
     public InstantAction SeeGhostAction = new()
     {
         UseDelay = TimeSpan.FromSeconds(10),
-        Icon = new SpriteSpecifier.Texture(new ResourcePath("Effects/crayondecals.rsi/ghost.png")),
+        Icon = new SpriteSpecifier.Texture(new ResPath("Effects/crayondecals.rsi/ghost.png")),
         DisplayName = "Проникновение в загробный мир",
         Description = "Часть вашей души попадет в загробный мир",
         Priority = -1,

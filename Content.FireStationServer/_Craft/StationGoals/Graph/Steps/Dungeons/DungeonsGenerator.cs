@@ -40,7 +40,7 @@ public sealed class DungeonsGenerator : Step
 
     private MapGridComponent? DungeonGrid = default!;
 
-    private Vector2 DungeonPosition = new Vector2(30f, 30f);
+    private Vector2i DungeonPosition = new Vector2i(30, 30);
     internal override ExecuteState ExecuteStep(Dictionary<StepDataKey, object> results, StationGoalPaperSystem system)
     {
         var entityManager = IoCManager.Resolve<IEntityManager>();

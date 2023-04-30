@@ -45,8 +45,6 @@
   - type: DoAfter
   - type: Climbing
   - type: Pullable
-  - type: Recyclable
-    safe: false
   - type: StandingState
   - type: Alerts
   - type: MobPrice

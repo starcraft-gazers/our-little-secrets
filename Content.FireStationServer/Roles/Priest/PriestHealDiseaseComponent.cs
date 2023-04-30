@@ -13,7 +13,7 @@ public sealed class PriestHealDiseaseComponent : Component
     public InstantAction HealDiseaseAction = new()
     {
         UseDelay = TimeSpan.FromSeconds(180),
-        Icon = new SpriteSpecifier.Texture(new ResourcePath("Structures/Decoration/banner.rsi/banner_medical.png")),
+        Icon = new SpriteSpecifier.Texture(new ResPath("Structures/Decoration/banner.rsi/banner_medical.png")),
         DisplayName = "Молитва за здравие",
         Description = "Помолитесь за здравие, чтобы попытаться излечить людей вокруг от болезней",
         Priority = -1,
