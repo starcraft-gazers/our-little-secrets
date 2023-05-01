@@ -36,12 +36,13 @@
     - type: Damageable
     - type: Clickable
     - type: Speech
-    - type: GhostTakeoverAvailable
+    - type: GhostRole
       allowMovement: true
       allowSpeech: true
       name: Чумной доктор
       description: Вы разумный и молчиливый "Чумной доктор".
-      rules: Вы дружелюбный объект! Вы можете создать себе двух спутников "Зомби", а также лечить экипаж.
+      rules: Вы дружелюбный объект! Вы можете создать себе двух прислужников, а также лечить экипаж.
+    - type: GhostTakeoverAvailable
     - type: MobState
       allowedStates:
         - Alive

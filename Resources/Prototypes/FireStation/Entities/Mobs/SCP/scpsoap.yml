@@ -50,12 +50,13 @@
     intersectRatio: 0.2
   - type: ReplacementAccent
     accent: boubly
-  - type: GhostTakeoverAvailable
+  - type: GhostRole
     allowMovement: true
     allowSpeech: true
     name: Странное Мыло
     description: Вы разумное мыло, порождёние таинственного космоса. Как ни странно вы всё такой же скользкий как и обычное мыло.
     rules: Будучи дружелюбным обьектом веселите экипаж!
+  - type: GhostTakeoverAvailable
   - type: MobState
     allowedStates:
       - Alive

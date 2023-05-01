@@ -143,11 +143,12 @@
       5000: Dead
   - type: ReplacementAccent
     accent: mute
-  - type: GhostTakeoverAvailable
+  - type: GhostRole
     allowMovement: true
     name: SCP-173
     description: Вы SCP-173, неуязвимая статуя которая не может двигаться пока на неё смотрят! Используя свои способности вы можете убить весь экипаж на станции.
     rules: Будучи агрессивным обьектом SCP убейте всех живых на станции.
+  - type: GhostTakeoverAvailable
   - type: Tool
     speed: 3
     qualities:
