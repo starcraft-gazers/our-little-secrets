@@ -11,5 +11,5 @@ public sealed class CentralCommandFaxPrototype : IPrototype
     public string ID {get;} = default!;
 
     [DataField("mapPath")]
-    public string MapPath = default!;
+    public ResPath MapPath = default!;
 }

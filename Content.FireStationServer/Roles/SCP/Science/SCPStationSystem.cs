@@ -1,4 +1,4 @@
-using System;
+
 using System.Linq;
 using Content.Server.GameTicking;
 using Content.Server.Shuttles.Components;
@@ -15,19 +15,16 @@ using Robust.Shared.IoC;
 using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
-using Robust.Shared.Physics;
 using Robust.Shared.Prototypes;
 
 namespace Content.FireStationServer.Roles.SCP.Science;
 
 public sealed class SCPStationSystem : EntitySystem
 {
-    [Dependency] private readonly IMapManager _mapManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly MapLoaderSystem _mapLoaderSystem = default!;
     [Dependency] private readonly ShuttleSystem _shuttleSystem = default!;
     [Dependency] private readonly StationJobsSystem _stationJobsSystem = default!;
-    [Dependency] private readonly StationSystem _stationSystem = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly IConfigurationManager _configManager = default!;
 

@@ -14,5 +14,5 @@ public sealed class ERTShuttlePrototype : IPrototype
     public string ID { get; } = default!;
 
     [DataField("path")]
-    public string Path = default!;
+    public ResPath Path = default!;
 }

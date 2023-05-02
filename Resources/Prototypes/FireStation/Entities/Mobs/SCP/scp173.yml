@@ -52,49 +52,17 @@
   files:
     - /Audio/FireStation/SCP/173/DoorOpen173.ogg
 
-- type: entity
-  name: Лужа крови?
-  id: SCP173Puddle
-  description: Кроваво-коричнивая лужа, смердит ужасно.
-  components:
-  - type: Transform
-    anchored: true
-  - type: Clickable
-  - type: Physics
-  - type: Fixtures
-    fixtures:
-    - id: slipFixture
-      shape:
-        !type:PhysShapeAabb
-        bounds: "-0.4,-0.4,0.4,0.4"
-      mask:
-      - ItemMask
-      layer:
-      - SlipLayer
-      hard: false
-  - type: Sprite
-    sprite: Fluids/splatter.rsi
-    state: splatter-0
-    color: "#993300"
-    netsync: false
-  - type: Puddle
-    slipThreshold: 1
-    overflowVolume: 20
-    recolor: false
-  - type: SolutionContainerManager
-    solutions:
-      puddle:
-        maxVol: 1000
-        reagents:
-        - ReagentId: Nutriment
-          Quantity: 8
-        - ReagentId: Blood
-          Quantity: 5
-  - type: Slippery
-    paralyzeTime: 4
-    launchForwardsMultiplier: 2.0
-  - type: StepTrigger
-  - type: Appearance
+- type: reagent
+  id: SCP173Blood
+  name: Жидкость SCP-173
+  group: Biological
+  desc: reagent-desc-blood
+  flavor: metallic
+  color: "#993300"
+  slippery: true
+  physicalDesc: reagent-physical-desc-ferrous
+  tileReactions:
+  - !type:SCP173TileReaction { }
 
 - type: entity
   name: SCP-173
@@ -149,10 +117,6 @@
     description: Вы SCP-173, неуязвимая статуя которая не может двигаться пока на неё смотрят! Используя свои способности вы можете убить весь экипаж на станции.
     rules: Будучи агрессивным обьектом SCP убейте всех живых на станции.
   - type: GhostTakeoverAvailable
-  - type: Tool
-    speed: 3
-    qualities:
-      - Prying
   - type: CombatMode
     disarm: null
   - type: MeleeWeapon

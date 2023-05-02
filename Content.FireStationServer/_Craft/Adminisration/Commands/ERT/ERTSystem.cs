@@ -137,7 +137,7 @@ public sealed class ERTSystem : EntitySystem
         var shuttlePath = PrototypeManager.EnumeratePrototypes<ERTShuttlePrototype>()
                     ?.First()
                     ?.Path
-                    ?.ToString();
+                    .ToString();
 
         if (shuttlePath == null)
         {

@@ -1,7 +1,7 @@
 # Does not inherit from simplemob MobIfritGuardian
 - type: entity
   abstract: true
-  name: GuardianBase
+  name: Голопаразит рыцаря звездной пыли
   id: MobGuardianBaseK
   description: guardian
   save: false
@@ -30,19 +30,19 @@
     - type: RandomSprite
       available:
         - enum.DamageStateVisualLayers.Base:
-            tech_base: ""
+            miner_base: ""
           enum.DamageStateVisualLayers.BaseUnshaded:
-            tech_flare: Sixteen
+            miner_flare: Sixteen
     - type: Sprite
       drawdepth: Mobs
       sprite: FireStation/Mobs/Security/guardiansKnight.rsi
       netsync: false
       layers:
-        - state: tech_base
+        - state: miner_base
           map: [ "enum.DamageStateVisualLayers.Base" ]
-        - state: tech_flare
+        - state: miner_flare
           map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
-          #shader: unshaded
+          shader: unshaded
       noRot: true
     - type: Clickable
     - type: InteractionOutline
@@ -92,7 +92,7 @@
 #MobGuardianBase
 # From the uplink injector
 - type: entity
-  name: SecurityGuardianTwo
+  name: Голопаразит рыцаря звездной пыли
   id: MobHoloparasiteGuardianK
   parent: MobGuardianBaseK
   description: A mesmerising whirl of hard-light patterns weaves a marvelous, yet oddly familiar visage. It stands proud, tuning into its owner's life to sustain itself.
@@ -110,10 +110,9 @@
       proto: holo
     - type: Sprite
       layers:
-        - state: tech_base
+        - state: miner_base
           map: [ "enum.DamageStateVisualLayers.Base" ]
-        - state: tech_flare
+        - state: miner_flare
           map: [ "enum.DamageStateVisualLayers.BaseUnshaded" ]
-          #shader: unshaded
-
+          shader: unshaded
 
