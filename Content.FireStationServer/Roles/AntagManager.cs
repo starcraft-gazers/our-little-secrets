@@ -9,7 +9,6 @@ using Robust.Server.Player;
 using Robust.Shared.Configuration;
 using Robust.Shared.IoC;
 using Robust.Shared.Log;
-using Robust.Shared.Random;
 
 namespace Content.FireStationServer.Roles;
 
@@ -20,8 +19,6 @@ public sealed class AntagManager : IAntagManager
     [Dependency] private readonly IConfigurationManager _config = default!;
     [Dependency] private readonly PlayTimeTrackingManager _playTimeTracking = default!;
     [Dependency] private readonly ILogManager _logManager = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-
     private bool IsAntagsBlockedByTime = true;
     private bool IsGhostRolesBlockedByTime = true;
     private int MinTimeToPlayAntag = 1800;
