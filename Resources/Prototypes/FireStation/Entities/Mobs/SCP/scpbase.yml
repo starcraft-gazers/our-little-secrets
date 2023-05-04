@@ -9,6 +9,7 @@
   id: SCPMobBase
   suffix: SCP
   components:
+  - type: SCPMarker
   - type: LagCompensation
   - type: Tag
     tags:
