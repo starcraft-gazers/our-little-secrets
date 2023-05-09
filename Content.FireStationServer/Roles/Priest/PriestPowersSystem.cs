@@ -5,8 +5,6 @@ using Robust.Server.GameObjects;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Random;
-using Content.Server.Disease.Components;
-using Content.Server.Disease;
 using Content.Server.Popups;
 
 namespace Content.FireStationServer.Roles.Priest;
@@ -17,7 +15,6 @@ public sealed class PriestPowersSystem : EntitySystem
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
     [Dependency] private readonly EntityLookupSystem _entityLookupSystem = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly DiseaseSystem _diseaseSystem = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly VisibilitySystem _visibilitySystem = default!;
@@ -54,10 +51,10 @@ public sealed class PriestPowersSystem : EntitySystem
 
         foreach (var entity in entitiesInRange)
         {
-            if (!EntityManager.TryGetComponent<DiseaseCarrierComponent?>(entity, out var diseaseCarrierComponent) || diseaseCarrierComponent == null)
-                continue;
+            // if (!EntityManager.TryGetComponent<DiseaseCarrierComponent?>(entity, out var diseaseCarrierComponent) || diseaseCarrierComponent == null)
+            //     continue;
 
-            _diseaseSystem.CureAllDiseases(entity, diseaseCarrierComponent);
+            // _diseaseSystem.CureAllDiseases(entity, diseaseCarrierComponent);
         }
 
         _popupSystem.PopupEntity("Бог услышал вас!", uid);

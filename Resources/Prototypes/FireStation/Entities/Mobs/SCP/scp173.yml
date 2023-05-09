@@ -93,14 +93,15 @@
   - type: Physics
   - type: Fixtures
     fixtures:
-    - shape:
-        !type:PhysShapeCircle
-        radius: 0.4
-      density: 1000
-      mask:
-      - MobMask
-      layer:
-      - MobLayer
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.4
+        density: 1000
+        mask:
+          - MobMask
+        layer:
+          - MobLayer
   - type: MobState
     allowedStates:
       - Alive
@@ -132,8 +133,6 @@
     damageContainer: Inorganic
     damageModifierSet: SCP173
   - type: NoSlip
-  - type: DiseaseProtection
-    protection: 1
   - type: Insulated
   - type: Tag
     tags:

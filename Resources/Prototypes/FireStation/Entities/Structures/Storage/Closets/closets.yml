@@ -30,8 +30,10 @@
     - type: Physics
     - type: Fixtures
       fixtures:
-        - shape: !type:PhysShapeAabb
-            bounds: "-0.25,-0.48,0.25,0.48"
+        fix1:
+          shape:
+            !type:PhysShapeCircle
+            radius: 0.35
           density: 145
           mask:
             - MachineMask

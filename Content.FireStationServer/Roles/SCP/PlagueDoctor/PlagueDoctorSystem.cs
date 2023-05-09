@@ -1,5 +1,4 @@
 using System.Linq;
-using Content.Server.Disease.Components;
 using Content.Server.Humanoid;
 using Content.Server.Nutrition.Components;
 using Content.Server.Popups;
@@ -83,7 +82,6 @@ public sealed class PlagueDoctorSystem : EntitySystem
             return;
         }
 
-        RemComp<DiseaseCarrierComponent>(target);
         RemComp<ThirstComponent>(target);
 
         EnsureComp<ReplacementAccentComponent>(target).Accent = "mute";
@@ -131,7 +129,6 @@ public sealed class PlagueDoctorSystem : EntitySystem
             return;
         }
 
-        EnsureComp<DiseaseCarrierComponent>(target);
         EnsureComp<ThirstComponent>(target);
 
         if (!TryComp<HumanoidAppearanceComponent>(target, out var targetHumanoidComp))
