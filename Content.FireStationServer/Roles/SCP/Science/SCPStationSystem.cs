@@ -165,7 +165,7 @@ public sealed class SCPStationSystem : EntitySystem
 
     public bool IsSpawnPointAtSCPStation(EntityUid uid, TransformComponent transform)
     {
-        Logger.DebugS("SCPStation", $"Called IsSpawnPointAtSCPStation : {IsFallback}");
+        // Logger.DebugS("SCPStation", $"Called IsSpawnPointAtSCPStation : {IsFallback}");
         return !IsFallback && transform.ParentUid == scpStationUid;
     }
 
