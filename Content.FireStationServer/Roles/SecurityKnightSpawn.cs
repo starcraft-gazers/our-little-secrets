@@ -18,7 +18,7 @@ public sealed class SecurityKnightSpawn : EntitySystem
 
     private void OnPlayersSpawned(PlayerSpawnCompleteEvent ev)
     {
-        if (ev.JobId != "SecurityKnight")
+        if (ev.JobId != "SecurityKnight" && ev.JobId != "Brigmedic")
             return;
 
         var attachedEntity = ev.Player.AttachedEntity;
