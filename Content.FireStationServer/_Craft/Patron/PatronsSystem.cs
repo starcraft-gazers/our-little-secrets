@@ -39,7 +39,7 @@ namespace Content.FireStationServer._Craft.Patron
             base.Initialize();
 
             SubscribeLocalEvent<PlayerSpawnCompleteEvent>(OnPlayerSpawnComplete);
-            SubscribeLocalEvent<PatronItemComponent,GettingPickedUpAttemptEvent>(OnItemPickTry);
+            SubscribeLocalEvent<PatronItemComponent, GettingPickedUpAttemptEvent>(OnItemPickTry);
             SubscribeLocalEvent<PatronEarsComponent, UseInHandEvent>(OnApplyEars);
         }
         private void OnPlayerSpawnComplete(PlayerSpawnCompleteEvent ev)
@@ -60,15 +60,15 @@ namespace Content.FireStationServer._Craft.Patron
         private void OnApplyEars(EntityUid uid, PatronEarsComponent comp, UseInHandEvent ev)
         {
             var user = ev.User;
-            if (TryComp<PatronItemComponent>(uid, out var patronComp))
-                if (!IsItemOwnedByEntity(patronComp, user, out var session))
-                    return;
+            if (TryComp<PatronItemComponent>(uid, out var patronComp) && !IsItemOwnedByEntity(patronComp, user, out var _))
+                return;
 
-            var curse = EnsureComp<OwOAccentComponent>(user);
+            _entMan.DeleteEntity(uid);
+
+            EnsureComp<OwOAccentComponent>(user);
             var visComp = EnsureComp<PatronEarsVisualizerComponent>(user);
             visComp.RsiPath = comp.RsiPath;
             Dirty(visComp);
-            _entMan.DeleteEntity(uid);
         }
 
         private bool IsItemOwnedByEntity(PatronItemComponent comp, EntityUid uid, out IPlayerSession? session)
