@@ -27,7 +27,7 @@ entities:
     components:
     - type: MetaData
     - pos: -2.1468816,-1.8721313
-      parent: 2647
+      parent: invalid
       type: Transform
     - chunks:
         -1,0:
@@ -1256,14 +1256,6 @@ entities:
     - type: GasTileOverlay
     - nextUpdate: 0
       type: SpreaderGrid
-  - uid: 2647
-    components:
-    - type: MetaData
-    - type: Transform
-    - type: Map
-    - type: PhysicsMap
-    - type: Broadphase
-    - type: OccluderTree
 - proto: AirAlarm
   entities:
   - uid: 788
@@ -14081,7 +14073,7 @@ entities:
     - pos: 11.5,17.5
       parent: 2480
       type: Transform
-    - SecondsUntilStateChange: -4794.6655
+    - SecondsUntilStateChange: -4822.9956
       state: Closing
       type: Door
   - uid: 2457
@@ -14097,20 +14089,6 @@ entities:
   - uid: 2463
     components:
     - pos: 9.5,18.5
-      parent: 2480
-      type: Transform
-- proto: JanitorialTrolley
-  entities:
-  - uid: 2648
-    components:
-    - rot: -1.5707963267948966 rad
-      pos: -9.5,34.5
-      parent: 2480
-      type: Transform
-  - uid: 2649
-    components:
-    - rot: -1.5707963267948966 rad
-      pos: -9.5,35.5
       parent: 2480
       type: Transform
 - proto: JetpackBlueFilled
@@ -14283,9 +14261,19 @@ entities:
       type: Transform
 - proto: MopBucketFull
   entities:
-  - uid: 3083
+  - uid: 2647
     components:
-    - pos: -9.471064,36.689598
+    - pos: -9.501087,36.706505
+      parent: 2480
+      type: Transform
+  - uid: 2648
+    components:
+    - pos: -9.5030575,35.677544
+      parent: 2480
+      type: Transform
+  - uid: 2649
+    components:
+    - pos: -9.519125,34.719913
       parent: 2480
       type: Transform
 - proto: MopItem
@@ -20592,12 +20580,12 @@ entities:
       type: Transform
 - proto: WaterTankFull
   entities:
-  - uid: 3084
+  - uid: 3083
     components:
     - pos: -8.5,40.5
       parent: 2480
       type: Transform
-  - uid: 3085
+  - uid: 3084
     components:
     - pos: -7.5,40.5
       parent: 2480

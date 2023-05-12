@@ -11,6 +11,7 @@
   supervisors: job-supervisors-captain
   canBeAntag: false
   access:
+    - Research
     - Command
     - Maintenance
     - External

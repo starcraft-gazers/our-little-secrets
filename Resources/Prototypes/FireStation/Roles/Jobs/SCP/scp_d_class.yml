@@ -8,10 +8,8 @@
       time: 3600
   startingGear: SCPDClassGear
   icon: "SCPDClass"
-  supervisors: job-supervisors-scp
+  supervisors: "Всем"
   canBeAntag: false
-  access:
-    - Maintenance
 
 - type: startingGear
   id: SCPDClassGear

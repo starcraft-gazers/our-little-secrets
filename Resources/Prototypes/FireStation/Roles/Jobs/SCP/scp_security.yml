@@ -11,7 +11,7 @@
       time: 21600
   startingGear: SCPSecurityGear
   icon: "SCPSecurity"
-  supervisors: job-supervisors-rd
+  supervisors: "Главе отдела СЦП"
   canBeAntag: false
   access:
     - Security
