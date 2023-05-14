@@ -7,12 +7,12 @@ namespace Content.FireStationServer._Craft.Utils;
 
 public static class ChatUtils
 {
-    public static void SendMessageFromCentcom(ChatSystem chatSystem, string message, EntityUid? stationId)
+    public static void SendMessageFromCentcom(ChatSystem chatSystem, string message, string sender, EntityUid? stationId)
     {
         SendMessage(
             chatSystem: chatSystem,
             message: message,
-            sender: "Центральное командование",
+            sender: sender,
             stationId: stationId
         );
     }
@@ -25,7 +25,7 @@ public static class ChatUtils
             return;
         }
 
-        SendMessageFromCentcom(chatSystem, (string) message, stationId);
+        SendMessageFromCentcom(chatSystem, (string) message, "Центральное командование", stationId);
     }
 
     public static void SendLocMessageFromCustom(ChatSystem chatSystem, string locCode, string sender, EntityUid? stationId)

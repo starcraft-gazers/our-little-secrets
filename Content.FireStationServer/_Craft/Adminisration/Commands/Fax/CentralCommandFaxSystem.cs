@@ -1,4 +1,6 @@
 using System.Linq;
+using Content.FireStationServer._Craft.Utils;
+using Content.Server.Chat.Systems;
 using Content.Shared.GameTicking;
 using JetBrains.Annotations;
 using Robust.Server.GameObjects;
@@ -6,6 +8,7 @@ using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Utility;
 
 namespace Content.FireStationServer._Craft.Administration.Commands.Fax;
 
@@ -15,51 +18,47 @@ public sealed class CreateCentralCommandFaxSystem : EntitySystem
     [Dependency] private readonly IMapManager MapManager = default!;
     [Dependency] private readonly MapLoaderSystem MapLoader = default!;
     [Dependency] private readonly IPrototypeManager PrototypeManager = default!;
-    [Dependency] private readonly SharedTransformSystem TransformSystem = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
 
-    private MapId _mapId = MapId.Nullspace;
-    public MapId MapId
-    {
-        get => _mapId;
-    }
+    private static string MapPath = "/Maps/FireStation/centcomfax.yml";
 
-    public EntityUid MapEntityUid
-    {
-        get => MapManager.GetMapEntityId(MapId);
-    }
+    private EntityUid _gridWithFax = EntityUid.Invalid;
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<RoundEndedEvent>(OnRoundEnded);
+        SubscribeLocalEvent<RoundStartedEvent>(OnRoundStarted);
     }
 
-    public void CreateFaxArea()
+    private void OnRoundStarted(RoundStartedEvent ev)
     {
-        if (MapId != MapId.Nullspace)
-            return;
-
-        var prototypes = PrototypeManager.EnumeratePrototypes<CentralCommandFaxPrototype>();
-        if (prototypes == null)
-            return;
-
-        var prototype = prototypes.ToList().First();
-
-        _mapId = MapManager.CreateMap();
-
-        if (!MapLoader.TryLoad(_mapId, prototype.MapPath.ToString(), out _))
+        var mapId = MapManager.CreateMap();
+        if (!MapLoader.TryLoad(mapId, new ResPath(MapPath).ToString(), out var grids) || grids == null || grids.Count <= 0)
         {
-            MapManager.DeleteMap(_mapId);
-            _mapId = MapId.Nullspace;
+            MapManager.DeleteMap(mapId);
             return;
         }
 
-        MapManager.SetMapPaused(MapId, false);
+        _gridWithFax = grids[0];
+
+        MapManager.SetMapPaused(mapId, false);
+        ChatUtils.SendMessageFromCentcom(
+            chatSystem: _chatSystem,
+            message: "Настраиваю факс... Соединение с факсом ЦК установлено",
+            sender: "ИИ Помощник",
+            null
+        );
+    }
+
+    public EntityUid GetFaxArea()
+    {
+        return _gridWithFax;
     }
 
     private void OnRoundEnded(RoundEndedEvent ev)
     {
-        _mapId = MapId.Nullspace;
+        _gridWithFax = EntityUid.Invalid;
     }
 }

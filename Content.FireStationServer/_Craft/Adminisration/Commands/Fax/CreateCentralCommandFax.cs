@@ -21,15 +21,8 @@ public sealed class CreateCentralCommandFax : IConsoleCommand
     {
         var entityManager = IoCManager.Resolve<IEntityManager>();
         var centralCommandFaxSystem = entityManager.System<CreateCentralCommandFaxSystem>();
-        centralCommandFaxSystem.CreateFaxArea();
 
-        if(centralCommandFaxSystem.MapId == MapId.Nullspace)
-        {
-            shell.WriteError("Can't create map with fax, sorry dude ;(");
-            return;
-        }
-
-        TeleportPlayer(shell, centralCommandFaxSystem.MapEntityUid, entityManager);
+        TeleportPlayer(shell, centralCommandFaxSystem.GetFaxArea(), entityManager);
     }
     private void TeleportPlayer(IConsoleShell shell, EntityUid targetUid, IEntityManager entityManager)
     {
