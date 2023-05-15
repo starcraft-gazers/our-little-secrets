@@ -46,7 +46,7 @@ public sealed class CreateCentralCommandFaxSystem : EntitySystem
         MapManager.SetMapPaused(mapId, false);
         ChatUtils.SendMessageFromCentcom(
             chatSystem: _chatSystem,
-            message: "Настраиваю факс... Соединение с факсом ЦК установлено",
+            message: "Соединение с факсом ЦК установлено",
             sender: "ИИ Помощник",
             null
         );
