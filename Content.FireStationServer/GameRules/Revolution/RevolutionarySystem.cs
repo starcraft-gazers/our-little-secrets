@@ -15,6 +15,7 @@ using Content.Server.Chat.Managers;
 using Robust.Shared.Localization;
 using System.Drawing;
 using Content.Shared.Mobs;
+using Content.Server.Popups;
 
 namespace Content.FireStationServer.GameRules.Revolution;
 
@@ -22,6 +23,8 @@ public sealed class RevolutionarySystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     private const string RevolutionaryPrototypeId = "Revolutionary";
     public override void Initialize()
     {
@@ -44,9 +47,9 @@ public sealed class RevolutionarySystem : EntitySystem
         var revoRole = new TraitorRole(targetmindcomp.Mind, antagPrototype);
         targetmindcomp.Mind.AddRole(revoRole);
 
-        // var filter = Filter.Empty().AddWhere(s => HasTraitorRole(s));
+        var filter = Filter.Entities(uid);
 
-        // SoundSystem.Play("/Audio/Magic/staff_chaos.ogg", filter, AudioParams.Default);
+        _audioSystem.PlayGlobal("/Audio/Magic/staff_chaos.ogg", filter, false, AudioParams.Default);
         GreetConvert(targetmindcomp);
     }
 
@@ -61,18 +64,11 @@ public sealed class RevolutionarySystem : EntitySystem
         if (mindComponent.Mind.Session == null)
             return;
 
+        var uid = (EntityUid) mindComponent.Mind.OwnedEntity;
+        var filter = Filter.Entities(uid);
+        _popupSystem.PopupEntity("Вы под гипнозом", uid, filter, true);
         _chatManager.ChatMessageToOne(Shared.Chat.ChatChannel.Server, message, messageWrapper, default, false, mindComponent.Mind.Session.ConnectedClient, Color.Red);
     }
-
-    private bool HasTraitorRole(ICommonSession session)
-    {
-        if (session! is IPlayerSession)
-            return false;
-
-
-        return ((IPlayerSession) session).Data.ContentData()?.Mind?.HasRole<TraitorRole>() ?? false;
-    }
-
     private void OnMobStateChangedEvent(EntityUid uid, RevolutionaryComponent component, MobStateChangedEvent args)
     {
         if (args.NewMobState != MobState.Dead)

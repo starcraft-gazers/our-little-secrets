@@ -1,3 +1,24 @@
+- type: gamePreset
+  id: Revolution
+  alias:
+    - Revo
+    - Revolutionary
+    - Revolutionaries
+  name: "[ALPHA] Революция"
+  description: Избавьтесь от глав станции, захватите власть и удержите ее!
+  showInVote: false
+  rules:
+    - Revolution
+    - BasicStationEventScheduler
+
+- type: entity
+  id: Revolution
+  parent: BaseGameRule
+  noSpawn: true
+  components:
+    - type: RevolutionaryRule
+
+#Roles
 - type: antag
   id: Revolutionary
   name: "Революционер"
@@ -12,6 +33,7 @@
   setPreference: true
   objective: "Завербуйте членов экипажа и с их помощью, устраните всех членов командования станции"
 
+#Items
 - type: entity
   name: Гипнотическая флешка
   parent: Flash
@@ -35,7 +57,6 @@
   equipment:
     pocket1: RevolutionaryFlash
     eyes: ClothingEyesGlassesSunglasses
-
 # - type: entity
 #   name: Revolution flag
 #   parent: BaseItem

@@ -8,8 +8,6 @@ using Content.Server.Station.Systems;
 using Content.Shared.Roles;
 using Content.Shared.Mobs;
 using Robust.Server.Player;
-using Robust.Shared.Audio;
-using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
@@ -26,6 +24,8 @@ using Content.FireStationServer.GameRules.Components;
 using Content.Server.GameTicking;
 using Content.Server.Mind;
 using Content.FireStationServer.GameRules.Revolution.Components;
+using Robust.Shared.Player;
+using Robust.Shared.Audio;
 
 namespace Content.FireStationServer.GameRules;
 
@@ -37,7 +37,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly RoundEndSystem _roundEndSystem = default!;
     [Dependency] private readonly StationSpawningSystem _stationSpawningSystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
-
+    [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -155,9 +155,6 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
 
                 MakeRevolHead(revoHead);
             }
-
-            // var filter = Filter.Empty().AddWhere(s => ((IPlayerSession) s).Data.ContentData()?.Mind?.HasRole<TraitorRole>() ?? false);
-            // SoundSystem.Play(revolComp._addedSound.GetSound(), filter, AudioParams.Default);
         }
     }
 
@@ -176,10 +173,10 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
                 return;
             }
 
-            MakeRevolHead(mind, revolComp);
+            MakeRevolHead(session, mind, revolComp);
         }
     }
-    private void MakeRevolHead(Mind mind, RevolutionaryRuleComponent revolComp)
+    private void MakeRevolHead(IPlayerSession session, Mind mind, RevolutionaryRuleComponent revolComp)
     {
         var antagPrototype = _prototypeManager.Index<AntagPrototype>(revolComp.RevolutionaryHeadPrototypeId);
         var revoHeadRole = new TraitorRole(mind, antagPrototype);
@@ -205,6 +202,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
            messageWrapper, default, false, mind.Session.ConnectedClient, Color.Red);
 
         EnsureComp<RevolutionaryHeadComponent>((EntityUid) mind.OwnedEntity);
+        _audioSystem.PlayGlobal(revolComp._addedSound, Filter.Empty().AddPlayer(session), false, AudioParams.Default);
     }
 
     private void OnMobStateChanged(MobStateChangedEvent ev)

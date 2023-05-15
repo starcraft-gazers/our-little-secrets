@@ -1,0 +1,48 @@
+# - type: gamePreset
+#   id: Cultists
+#   name: "Культ Нар-Си (в разработке)"
+#   description: "Остановите культ, который пытается призвать злое божество"
+#   showInVote: false
+#   rules:
+#     - Cultists
+#     - BasicStationEventScheduler
+
+# - type: entity
+#   id: Cultists
+#   parent: BaseGameRule
+#   noSpawn: true
+#   components:
+#     - type: CultistRule
+
+
+#Roles
+- type: antag
+  id: Cultist
+  name: Культист (в разработке)
+  antagonist: true
+  setPreference: true
+  # objective: roles-antag-cultist-objective
+
+- type: antag
+  id: HeadCultist
+  name: Глава культа (в разработке)
+  antagonist: true
+  setPreference: false
+  # objective: roles-antag-head-cultist-objective
+
+# - type: antag
+#   id: Narsi
+#   name: roles-antag-narsie-name
+#   antagonist: true
+#   setPreference: false
+#   objective: roles-antag-narsie-objective
+
+#Chat
+# - type: radioChannel
+#   id: Cult
+#   name: chat-radio-cult
+#   keycodes:
+#     - 'г'
+#     - 'g'
+#   frequency: 6666
+#   color: "#c3554b"
