@@ -1,0 +1,19 @@
+- type: gamePreset
+  id: Revolution
+  alias:
+    - Revo
+    - Revolutionary
+    - Revolutionaries
+  name: "[ALPHA] Революция"
+  description: Избавьтесь от глав станции, захватите власть и удержите ее!
+  showInVote: false
+  rules:
+    - Revolution
+    - BasicStationEventScheduler
+
+- type: entity
+  id: Revolution
+  parent: BaseGameRule
+  noSpawn: true
+  components:
+    - type: RevolutionaryRule

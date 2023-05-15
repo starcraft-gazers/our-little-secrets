@@ -1,0 +1,62 @@
+- type: antag
+  id: Revolutionary
+  name: "Революционер"
+  antagonist: true
+  setPreference: false
+  objective: "Vive la révolution!"
+
+- type: antag
+  id: RevolutionaryHead
+  name: "[ALPHA] Командир революционеров"
+  antagonist: true
+  setPreference: true
+  objective: "Завербуйте членов экипажа и с их помощью, устраните всех членов командования станции"
+
+- type: entity
+  name: Гипнотическая флешка
+  parent: Flash
+  id: RevolutionaryFlash
+  description: Используйте ее, чтобы загипнотизировать членов экипажа
+  components:
+    - type: Sprite
+      sprite: FireStation/Objects/Misc/Revolution/flash.rsi
+      state: flash
+    - type: Flash
+      duration: 1000
+      range: 1
+      aoeFlashDuration: 500
+      uses: 3
+    - type: Item
+      size: 5
+      sprite: FireStation/Objects/Misc/Revolution/flash.rsi
+
+- type: startingGear
+  id: RevoHeadGear
+  equipment:
+    pocket1: RevolutionaryFlash
+    eyes: ClothingEyesGlassesSunglasses
+
+# - type: entity
+#   name: Revolution flag
+#   parent: BaseItem
+#   id: RevolutionFlag
+#   description: A flag that bears the emblem of the revolution, it may not be much but it may bring courage to those that fight for freedom
+#   components:
+#     - type: Sprite
+#       sprite: Objects/Weapons/Melee/revolutionflag.rsi
+#       state: icon
+#     - type: TwoHanded
+#     - type: Flag
+#     - type: MeleeWeapon
+#       damage:
+#         types:
+#           Blunt: 2
+#       range: 1
+#       angle: 60
+#     - type: Item
+#       size: 200
+#       sprite: Objects/Weapons/Melee/revolutionflag.rsi
+#     - type: ItemCooldown
+#     - type: Construction
+#       graph: revolutionflag
+#       node: flag
