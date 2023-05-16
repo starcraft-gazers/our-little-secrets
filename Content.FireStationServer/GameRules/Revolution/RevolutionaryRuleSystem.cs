@@ -26,6 +26,8 @@ using Content.Server.Mind;
 using Content.FireStationServer.GameRules.Revolution.Components;
 using Robust.Shared.Player;
 using Robust.Shared.Audio;
+using Content.Server.Traitor.Uplink;
+using Content.Server.PDA.Ringer;
 
 namespace Content.FireStationServer.GameRules;
 
@@ -38,6 +40,7 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
     [Dependency] private readonly StationSpawningSystem _stationSpawningSystem = default!;
     [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
+    [Dependency] private readonly UplinkSystem _uplinkSystem = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -187,24 +190,33 @@ public sealed class RevolutionaryRuleSystem : GameRuleSystem<RevolutionaryRuleCo
         if (mind.OwnedEntity is null)
             return;
 
-        var message = "Вы один из командиров революции. Ваша задача убить все командование станции. Используйте флеш гранату в вашем рюкзаке, чтобы завербовать членов экипажа.";
-        var messageWrapper = Loc.GetString("chat-manager-server-wrap-message", ("message", message));
         _stationSpawningSystem.EquipStartingGear(mind.OwnedEntity.Value, _prototypeManager.Index<StartingGearPrototype>("RevoHeadGear"), null);
 
+        AddRevolHeadToNames(mind, revolComp);
+        ChatToRevolHead(session, revolComp);
+
+        EnsureComp<RevolutionaryHeadComponent>((EntityUid) mind.OwnedEntity);
+       _uplinkSystem.AddUplink(mind.OwnedEntity.Value, 70, "StorePresetRevolution");
+    }
+
+    private void AddRevolHeadToNames(Mind mind, RevolutionaryRuleComponent revolComp)
+    {
         if (mind.Session == null)
             return;
 
         var inCharacterName = mind.CharacterName;
         if (inCharacterName != null)
             revolComp._revolutionHeadNames.Add(inCharacterName, mind.Session.Name);
-
-        _chatManager.ChatMessageToOne(Shared.Chat.ChatChannel.Server, message,
-           messageWrapper, default, false, mind.Session.ConnectedClient, Color.Red);
-
-        EnsureComp<RevolutionaryHeadComponent>((EntityUid) mind.OwnedEntity);
-        _audioSystem.PlayGlobal(revolComp._addedSound, Filter.Empty().AddPlayer(session), false, AudioParams.Default);
     }
 
+    private void ChatToRevolHead(IPlayerSession session, RevolutionaryRuleComponent revolComp)
+    {
+        var message = "Вы один из командиров революции. Ваша задача убить все командование станции. \nИспользуйте флеш гранату в вашем рюкзаке, чтобы завербовать членов экипажа.\nИспользуйте аплик в вашем КПК, чтобы закупать снаряжение для революции!";
+        var messageWrapper = Loc.GetString("chat-manager-server-wrap-message", ("message", message));
+
+        _chatManager.ChatMessageToOne(Shared.Chat.ChatChannel.Server, message, messageWrapper, default, false, session.ConnectedClient, Color.Red);
+        _audioSystem.PlayGlobal(revolComp._addedSound, Filter.Empty().AddPlayer(session), false, AudioParams.Default);
+    }
     private void OnMobStateChanged(MobStateChangedEvent ev)
     {
         var query = EntityQueryEnumerator<RevolutionaryRuleComponent, GameRuleComponent>();

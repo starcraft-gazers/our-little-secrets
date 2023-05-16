@@ -1,0 +1,131 @@
+- type: storePreset
+  id: StorePresetRevolution
+  storeName: Магазинчик революционера
+  categories:
+    - RevolutionWeapons
+    - RevolutionClothing
+    - RevolutionRadio
+  currencyWhitelist:
+    - Telecrystal
+
+#categories
+- type: storeCategory
+  id: RevolutionWeapons
+  name: Оружие
+  priority: 0
+
+- type: storeCategory
+  id: RevolutionClothing
+  name: Одежда
+  priority: 1
+
+- type: storeCategory
+  id: RevolutionRadio
+  name: Коммуникация
+  priority: 2
+
+#weapons
+- type: listing
+  id: RevolutionPistolViper
+  name: uplink-pistol-viper-name
+  description: uplink-pistol-viper-desc
+  productEntity: WeaponPistolViper
+  cost:
+    Telecrystal: 25
+  categories:
+    - RevolutionWeapons
+
+- type: listing
+  id: RevolutionShotgunSawn
+  name: Обрез
+  description: Против всякой шелупони
+  productEntity: WeaponShotgunSawn
+  cost:
+    Telecrystal: 20
+  categories:
+    - RevolutionWeapons
+
+- type: listing
+  id: RevolutionShotgunHandmade
+  name: Самодельный пистолет
+  description: Собран из подручных средств
+  productEntity: WeaponShotgunHandmade
+  cost:
+    Telecrystal: 10
+  categories:
+    - RevolutionWeapons
+
+#Clothing
+- type: listing
+  id: RevolutionHeadHatHoodGoliathCloak
+  name: Красный капюшон
+  productEntity: ClothingHeadHatHoodGoliathCloak
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionOuterArmorHeavyRed
+  name: Красный тяжелый бронекостюм
+  productEntity: ClothingOuterArmorHeavyRed
+  cost:
+    Telecrystal: 30
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionShoesColorRed
+  name: Красные туфли
+  productEntity: ClothingShoesColorRed
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionUniformJumpsuitColorRed
+  name: Красный костюм
+  productEntity: ClothingUniformJumpsuitColorRed
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionNeckTieRed
+  name: Красный галстук
+  productEntity: ClothingNeckTieRed
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionHandsGlovesColorRed
+  name: Красные перчатки
+  productEntity: ClothingHandsGlovesColorRed
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+- type: listing
+  id: RevolutionNeckCloakGoliathCloak
+  name: Красный плащ
+  productEntity: ClothingNeckCloakGoliathCloak
+  cost:
+    Telecrystal: 1
+  categories:
+    - RevolutionClothing
+
+#radio
+- type: listing
+  id: UplinkPistolViper
+  name: Ключ шифрования революционеров
+  description: Будьте на связи с подчиненными
+  productEntity: EncryptionKeyRevolution
+  cost:
+    Telecrystal: 2
+  categories:
+    - RevolutionRadio

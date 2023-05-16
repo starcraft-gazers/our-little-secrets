@@ -27,3 +27,51 @@
 #   innerclothingskirt: ClothingUniformJumpskirtColorBlack
 #   satchel: ClothingBackpackSatchelFilled
 #   duffelbag: ClothingBackpackDuffelFilled
+- type: entity
+  name: Нар-Си
+  parent: MobXeno
+  id: Narsie
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    sprite: FireStation/Mobs/Cult.rsi
+    offset: 0,0
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: narsie
+  - type: MobState
+    allowedStates:
+      - Alive
+      - Dead
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      800000: Dead
+  - type: Stamina
+    excess: 300000
+  - type: Fixtures
+    fix1:
+      fixtures:
+      - shape:
+          !type:PhysShapeCircle
+          radius: 1.3
+        density: 400
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
+  - type: MeleeWeapon
+    hidden: true
+    angle: 0
+    soundHit:
+     collection: AlienClaw
+    animation: WeaponArcBite
+    damage:
+      groups:
+        Brute: 10000
+    range: 4
+  - type: PointLight
+    enabled: true
+    radius: 7
+    energy: 15
+    color: OrangeRed

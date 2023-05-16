@@ -35,6 +35,29 @@
 
 #Items
 - type: entity
+  parent: EncryptionKey
+  id: EncryptionKeyRevolution
+  name: Ключ шифрования
+  description: Открывает доступ к интересному каналу...
+  components:
+  - type: EncryptionKey
+    channels:
+    - Revolution
+    defaultChannel: Revolution
+  - type: Sprite
+    layers:
+    - state: crypt_red
+    - state: synd_label
+
+- type: radioChannel
+  id: Revolution
+  name: Революционеры
+  keycode: 'з'
+  frequency: 1213
+  color: "#ffd700"
+  longRange: true
+
+- type: entity
   name: Гипнотическая флешка
   parent: Flash
   id: RevolutionaryFlash
@@ -45,9 +68,9 @@
       state: flash
     - type: Flash
       duration: 1000
-      range: 1
+      range: 3
       aoeFlashDuration: 500
-      uses: 3
+      uses: 5
     - type: Item
       size: 5
       sprite: FireStation/Objects/Misc/Revolution/flash.rsi
@@ -81,3 +104,5 @@
 #     - type: Construction
 #       graph: revolutionflag
 #       node: flag
+
+
