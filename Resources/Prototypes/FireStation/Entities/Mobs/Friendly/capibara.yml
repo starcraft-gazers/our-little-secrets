@@ -13,15 +13,16 @@
       state: capibara
   - type: Physics
   - type: Fixtures
-    fixtures:
-    - shape:
-        !type:PhysShapeCircle
-        radius: 0.35
-      density: 30
-      mask:
-      - MobMask
-      layer:
-      - MobLayer
+    fix1:
+      fixtures:
+      - shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 30
+        mask:
+        - MobMask
+        layer:
+        - MobLayer
   - type: Inventory
     speciesId: dog
     templateId: pet
