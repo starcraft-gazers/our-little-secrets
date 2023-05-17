@@ -78,7 +78,6 @@ public sealed class SCPStationSystem : EntitySystem
         stationJobs.RoundStartJobList["SCPHead"] = 1;
         stationJobs.RoundStartJobList["SCPSecurity"] = 3;
         stationJobs.RoundStartJobList["SCPScientist"] = 3;
-        stationJobs.RoundStartJobList["SCPHead"] = 1;
         stationJobs.RoundStartJobList["SCPDClass"] = 4;
 
         _stationJobsSystem.UpdateJobsAvailable();
