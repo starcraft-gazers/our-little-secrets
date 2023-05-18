@@ -1,6 +1,6 @@
 - type: accent
   id: mute
-  words:
+  fullReplacements:
   - "..."
 
 - type: damageModifierSet
